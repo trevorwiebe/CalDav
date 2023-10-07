@@ -1,4 +1,4 @@
-package com.trevorwiebe.caldav.ui.theme
+package com.trevorwiebe.caldav.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
