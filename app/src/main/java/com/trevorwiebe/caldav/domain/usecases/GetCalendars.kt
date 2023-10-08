@@ -7,7 +7,9 @@ class GetCalendars(
     private val calDavApi: CalDavApi
 ) {
 
-    suspend operator fun invoke(): Flow<String> {
-        return calDavApi.getCalendars()
+    suspend operator fun invoke(
+        username: String, password: String, url: String
+    ): Flow<String> {
+        return calDavApi.getCalendars(username, password, url)
     }
 }
