@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.trevorwiebe.caldav.data.model.Event
 import com.trevorwiebe.caldav.domain.usecases.GetCalendars
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,7 +19,7 @@ class MainActivityViewModel @Inject constructor(
     var state by mutableStateOf(MainActivityState())
 
     init {
-
+        loadCal("test", "test", "https://calendar.mercyh.org/dav.php/calendars/trevorw/default/")
     }
 
     fun onEvent(event: CalDavEvents){
@@ -33,17 +34,17 @@ class MainActivityViewModel @Inject constructor(
                 state = state.copy(url = event.url)
             }
             is CalDavEvents.OnAddCal -> {
-                loadCal()
+
             }
         }
     }
 
-    private fun loadCal(){
+    private fun loadCal(username: String, password: String, url: String){
         viewModelScope.launch {
             getCalendars(
-                state.username, state.password, state.url
+                username, password, url
             ).collect{ newResponse ->
-                state = state.copy(responseString = newResponse)
+                state = state.copy(eventList = newResponse)
             }
         }
     }
@@ -51,7 +52,7 @@ class MainActivityViewModel @Inject constructor(
 }
 
 data class MainActivityState(
-    var responseString: String = "",
+    var eventList: List<Event> = emptyList(),
     var username: String = "",
     var password: String = "",
     var url: String = ""

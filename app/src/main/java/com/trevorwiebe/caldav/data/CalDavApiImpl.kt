@@ -1,6 +1,6 @@
 package com.trevorwiebe.caldav.data
 
-import com.trevorwiebe.caldav.data.util.availableCalendarsRequest
+import com.trevorwiebe.caldav.data.util.getEventsRequest
 import com.trevorwiebe.caldav.data.util.toFlow
 import kotlinx.coroutines.flow.Flow
 import okhttp3.Credentials
@@ -18,12 +18,12 @@ class CalDavApiImpl (
         username: String, password: String, url: String
     ): Flow<String> {
         val credential = Credentials.basic(username, password)
-        val requestBody = availableCalendarsRequest()
+        val requestBody = getEventsRequest()
         val request = requestBuilder.url(url)
             .addHeader("DEPTH", requestBody.depth)
             .addHeader("Content-Type", "application/xml; charset=utf-8")
             .addHeader("Prefer", "return-minimal")
-            .method("PROPFIND", requestBody.body.toRequestBody(
+            .method(requestBody.method, requestBody.body.toRequestBody(
                 requestBody.body.toMediaTypeOrNull())
             )
             .header("Authorization", credential)

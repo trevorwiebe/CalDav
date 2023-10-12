@@ -2,23 +2,18 @@ package com.trevorwiebe.caldav.data.util
 
 import com.trevorwiebe.caldav.data.model.CalDavRequestBody
 
-fun displayNameRequest(): CalDavRequestBody {
+fun getEventsRequest(): CalDavRequestBody {
     return CalDavRequestBody(
-        body = "<d:propfind xmlns:d=\"DAV:\" xmlns:cs=\"https://calendar.mercyh.org\">\n" +
-                "  <d:prop>\n" +
-                "     <d:displayname />\n" +
-                "  </d:prop>\n" +
-                "</d:propfind>",
-        url = "calendars/testing/",
-        depth = "0"
-    )
-}
-
-fun availableCalendarsRequest(): CalDavRequestBody {
-    return CalDavRequestBody(
-        body = "<d:propfind xmlns:d=\"DAV:\" xmlns:cs=\"https://calendar.mercyh.org\">\n" +
-                "</d:propfind>",
-        url = "calendars/testing/",
-        depth = "1"
+        body = "<c:calendar-query xmlns:d=\"DAV:\" xmlns:c=\"urn:ietf:params:xml:ns:caldav\">\n" +
+                "    <d:prop>\n" +
+                "        <d:getetag />\n" +
+                "        <c:calendar-data />\n" +
+                "    </d:prop>\n" +
+                "    <c:filter>\n" +
+                "        <c:comp-filter name=\"VCALENDAR\" />\n" +
+                "    </c:filter>\n" +
+                "</c:calendar-query>",
+        depth = "1",
+        method = "REPORT"
     )
 }

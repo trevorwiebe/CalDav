@@ -1,11 +1,10 @@
 package com.trevorwiebe.caldav.presentation.calendar
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.CircularProgressIndicator
@@ -48,23 +47,24 @@ fun Calendar(
         },
     ) {  innerPadding ->
 
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(innerPadding)
+        LazyColumn(
+            modifier = Modifier.padding(innerPadding)
         ) {
             if(
-                viewModel.state.responseString.isEmpty() &&
+                viewModel.state.eventList.isEmpty() &&
                 viewModel.state.url.isNotEmpty()
             ){
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ){
-                    CircularProgressIndicator()
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ){
+                        CircularProgressIndicator()
+                    }
                 }
-            }else {
-                Text(text = viewModel.state.responseString)
+            }
+            items(viewModel.state.eventList) { event ->
+                EventView(event = event)
             }
         }
     }

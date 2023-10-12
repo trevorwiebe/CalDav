@@ -1,6 +1,7 @@
 package com.trevorwiebe.caldav.domain.di
 
 import com.trevorwiebe.caldav.data.CalDavApi
+import com.trevorwiebe.caldav.domain.parser.CalendarParser
 import com.trevorwiebe.caldav.domain.usecases.GetCalendars
 import dagger.Module
 import dagger.Provides
@@ -14,10 +15,17 @@ object DIUseCases {
 
     @Provides
     @ViewModelScoped
+    fun provideCalendarParser(): CalendarParser{
+        return CalendarParser()
+    }
+
+    @Provides
+    @ViewModelScoped
     fun provideEvents(
-        calDavApi: CalDavApi
+        calDavApi: CalDavApi,
+        calendarParser: CalendarParser
     ): GetCalendars {
-        return GetCalendars(calDavApi)
+        return GetCalendars(calDavApi, calendarParser)
     }
 
 }
