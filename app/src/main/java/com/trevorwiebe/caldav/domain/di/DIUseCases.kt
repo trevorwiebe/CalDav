@@ -1,10 +1,14 @@
 package com.trevorwiebe.caldav.domain.di
 
 import com.trevorwiebe.caldav.data.CalDavApi
+import com.trevorwiebe.caldav.data.auth.SecurePref
 import com.trevorwiebe.caldav.domain.parser.CalendarParser
 import com.trevorwiebe.caldav.domain.parser.EventParser
 import com.trevorwiebe.caldav.domain.usecases.GetCalendar
 import com.trevorwiebe.caldav.domain.usecases.GetEvents
+import com.trevorwiebe.caldav.domain.usecases.auth.GetAuthUser
+import com.trevorwiebe.caldav.domain.usecases.auth.SaveAuthUser
+import com.trevorwiebe.caldav.domain.usecases.auth.UserAuthentication
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,6 +47,34 @@ object DIUseCases {
         calendarParser: CalendarParser
     ): GetCalendar {
         return GetCalendar(calDavApi, calendarParser)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideSaveUser(
+        securePref: SecurePref
+    ): SaveAuthUser{
+        return SaveAuthUser(securePref)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetUser(
+        securePref: SecurePref
+    ): GetAuthUser {
+        return GetAuthUser(securePref)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideUserAuthentication(
+        saveAuthUser: SaveAuthUser,
+        getAuthUser: GetAuthUser
+    ): UserAuthentication{
+        return UserAuthentication(
+            saveAuthUser = saveAuthUser,
+            getAuthUser = getAuthUser,
+        )
     }
 
 }

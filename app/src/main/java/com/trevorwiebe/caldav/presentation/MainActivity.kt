@@ -25,11 +25,17 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val viewModel: MainActivityViewModel by viewModels()
 
+                var initialScreen = CalDavScreens.Welcome
+
+                if(viewModel.state.authUserModel != null){
+                    initialScreen = CalDavScreens.Calendar
+                }
+
                 Scaffold{ innerPadding ->
 
                     NavHost(
                         navController = navController,
-                        startDestination = CalDavScreens.Welcome,
+                        startDestination = initialScreen,
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(route = CalDavScreens.Calendar){
