@@ -13,7 +13,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,7 +42,7 @@ fun AddCalendarScreen(
         Spacer(modifier = Modifier
             .fillMaxWidth()
             .height(16.dp))
-        Text(text = "Enter your CalDav credentials to add a calendar.")
+        Text(text = "Enter your users CalDav credentials.")
         Spacer(modifier = Modifier
             .fillMaxWidth()
             .height(16.dp))
@@ -71,8 +70,8 @@ fun AddCalendarScreen(
             onClick = saveCalendar,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(0.dp, 36.dp, 0.dp, 16.dp)
-                .clip(RoundedCornerShape(50.dp))
+                .padding(0.dp, 36.dp, 0.dp, 16.dp),
+            shape = RoundedCornerShape(10.dp)
         ) {
             Text(text = "Submit", modifier = Modifier.padding(0.dp, 12.dp, 0.dp, 12.dp))
         }

@@ -34,9 +34,9 @@ fun PlainTextView(
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.onBackground,
-                shape = RoundedCornerShape(50.dp)
+                shape = RoundedCornerShape(10.dp)
             )
-            .clip(RoundedCornerShape(50.dp)),
+            .clip(RoundedCornerShape(10.dp)),
         placeholder = { Text(text = placeHolder)},
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         colors = TextFieldDefaults.colors(
