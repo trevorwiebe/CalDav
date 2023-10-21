@@ -21,7 +21,7 @@ import com.trevorwiebe.caldav.presentation.CalDavEvents
 import com.trevorwiebe.caldav.presentation.MainActivityViewModel
 
 @Composable
-fun AddCalendar(
+fun AddCalendarScreen(
     viewModel: MainActivityViewModel,
     saveCalendar: () -> Unit
 ) {

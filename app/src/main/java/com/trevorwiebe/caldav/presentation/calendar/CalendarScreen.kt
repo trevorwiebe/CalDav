@@ -24,7 +24,7 @@ import com.trevorwiebe.caldav.presentation.MainActivityViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Calendar(
+fun CalendarScreen(
     viewModel: MainActivityViewModel,
     navToAddCal: () -> Unit
 ) {

@@ -5,21 +5,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.trevorwiebe.caldav.presentation.calendar.Calendar
-import com.trevorwiebe.caldav.presentation.add_cal.AddCalendar
+import com.trevorwiebe.caldav.presentation.add_cal.AddCalendarScreen
+import com.trevorwiebe.caldav.presentation.calendar.CalendarScreen
 import com.trevorwiebe.caldav.presentation.ui.theme.CalDavTheme
 import com.trevorwiebe.caldav.presentation.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -35,13 +33,13 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(route = CalDavScreens.Calendar){
-                            Calendar(
+                            CalendarScreen(
                                 viewModel = viewModel,
                                 navToAddCal = {navController.navigate(CalDavScreens.AddCalendar)}
                             )
                         }
                         composable(route = CalDavScreens.AddCalendar){
-                            AddCalendar(
+                            AddCalendarScreen(
                                 viewModel = viewModel,
                                 saveCalendar = {
                                     viewModel.onEvent(CalDavEvents.OnAddCal)
