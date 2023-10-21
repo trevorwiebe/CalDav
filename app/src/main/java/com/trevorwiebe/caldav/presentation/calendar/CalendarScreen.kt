@@ -51,7 +51,7 @@ fun CalendarScreen(
             modifier = Modifier.padding(innerPadding)
         ) {
             if(
-                viewModel.state.eventList.isEmpty() &&
+                viewModel.state.calList.isEmpty() &&
                 viewModel.state.url.isNotEmpty()
             ){
                 item {

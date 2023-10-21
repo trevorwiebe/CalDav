@@ -21,11 +21,6 @@ class MainActivityViewModel @Inject constructor(
 
     var state by mutableStateOf(MainActivityState())
 
-    init {
-        loadCalendar("test", "test", "https://calendar.mercyh.org/dav.php/calendars/test/")
-//        loadEvents("test", "test", "https://calendar.mercyh.org/dav.php/calendars/test/default/")
-    }
-
     fun onEvent(event: CalDavEvents){
         when(event){
             is CalDavEvents.OnUsernameChange -> {
@@ -38,7 +33,11 @@ class MainActivityViewModel @Inject constructor(
                 state = state.copy(url = event.url)
             }
             is CalDavEvents.OnAddCal -> {
-
+                loadCalendar(
+                    state.username,
+                    state.password,
+                    state.url
+                )
             }
         }
     }
