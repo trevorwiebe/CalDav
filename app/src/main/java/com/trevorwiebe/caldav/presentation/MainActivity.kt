@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.trevorwiebe.caldav.presentation.calendar.Calendar
 import com.trevorwiebe.caldav.presentation.add_cal.AddCalendar
 import com.trevorwiebe.caldav.presentation.ui.theme.CalDavTheme
+import com.trevorwiebe.caldav.presentation.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = CalDavScreens.Calendar,
+                        startDestination = CalDavScreens.Welcome,
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(route = CalDavScreens.Calendar){
@@ -45,6 +46,13 @@ class MainActivity : ComponentActivity() {
                                 saveCalendar = {
                                     viewModel.onEvent(CalDavEvents.OnAddCal)
                                     navController.navigate(CalDavScreens.Calendar)
+                                }
+                            )
+                        }
+                        composable(route = CalDavScreens.Welcome){
+                            WelcomeScreen(
+                                onNextClick = {
+                                    navController.navigate(CalDavScreens.AddCalendar)
                                 }
                             )
                         }
