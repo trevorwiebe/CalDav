@@ -1,75 +1,107 @@
 package com.trevorwiebe.caldav.domain.parser
 
+import android.util.Log
 import android.util.Xml
-import com.trevorwiebe.caldav.data.model.Event
+import com.trevorwiebe.caldav.data.model.Calendar
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
 
-const val TAG = "CalendarParser"
 class CalendarParser {
 
     @Throws(XmlPullParserException::class, IOException::class)
-    fun parseEvents(data: String): List<Event> {
+    fun parseCalendar(data: String): List<Calendar> {
         val inputStream = data.byteInputStream()
         inputStream.use {
             val parser: XmlPullParser = Xml.newPullParser()
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
             parser.setInput(inputStream, null)
-            return readFeed(parser)
+            return parseCalendarHelper(parser)
         }
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readFeed(parser: XmlPullParser): List<Event> {
-
-        val eventList = mutableListOf<Event>()
-
-        var event = Event("", "", "", "")
-
-        var tag: String?
+    fun parseCalendarHelper(parser: XmlPullParser): List<Calendar> {
+        val calendarList = mutableListOf<Calendar>()
+        var calendar = Calendar("", "", "", "", emptyList(), "", "", "")
         var xmlEvent = parser.eventType
+        var tag: String?
+        var title = false
+        var url = false
+        var description = false
+        var timeZone = false
+        var supportedComponentSet = false
+        var syncToken = false
+        var order = false
+        var color = false
 
-        var href = false
-        var etag = false
-        var status = false
-        var calendarData = false
-
-        while (xmlEvent != XmlPullParser.END_DOCUMENT) {
+        while (xmlEvent != XmlPullParser.END_DOCUMENT){
             tag = parser.name
-            when (xmlEvent) {
-                XmlPullParser.START_TAG ->  {
+            when (xmlEvent){
+                XmlPullParser.START_TAG -> {
+                    Log.d(TAG, "parseCalendarHelper: start $tag")
                     when(tag){
-                        "d:href" -> href = true
-                        "d:getetag" -> etag = true
-                        "cal:calendar-data" -> calendarData = true
-                        "d:status" -> status = true
+                        "d:href" -> url = true
+                        "s:sync-token" -> syncToken = true
+                        "d:displayname" -> title = true
+                        "cal:calendar-description" -> description = true
+                        "cal:calendar-timezone" -> timeZone = true
+                        "x1:calendar-order" -> order = true
+                        "x1:calendar-color" -> color = true
                     }
                 }
                 XmlPullParser.TEXT -> {
-                    if(href){
-                        event.url = parser.text
-                        href = false
+                    Log.d(TAG, "parseCalendarHelper: ${parser.text}")
+                    if(url){
+                        calendar = calendar.copy(url = parser.text)
+                        url = false
                     }
-                    if(etag){
-                        event.id = parser.text
-                        etag = false
+                    if(syncToken){
+                        calendar = calendar.copy(syncToken = parser.text)
+                        syncToken = false
                     }
-                    if(calendarData){
-                        event.calendarData = parser.text
-                        calendarData = false
+                    if(title){
+                        calendar = calendar.copy(title = parser.text)
+                        title = false
                     }
-                    if(status){
-                        event.status = parser.text
-                        status = false
-                        val eventToAdd = event
-                        eventList.add(eventToAdd)
-                        event = Event("", "", "", "")
+                    if(description){
+                        calendar = calendar.copy(description = parser.text)
+                        description = false
+                    }
+                    if(timeZone){
+                        calendar = calendar.copy(timeZone = parser.text)
+                        timeZone = false
+                    }
+                    if(order){
+                        calendar = calendar.copy(order = parser.text)
+                        order = false
+                    }
+                    if(color){
+                        calendar = calendar.copy(color = parser.text)
+                        color = false
+                    }
+                }
+                XmlPullParser.END_TAG -> {
+                    if(tag == "d:response"){
+                        if(calendar.title.isNotEmpty()) {
+                            calendarList.add(calendar)
+                        }
+                        calendar = calendar.copy(
+                            title = "",
+                            description = "",
+                            url = "",
+                            timeZone = "",
+                            supportedComponentSet = emptyList(),
+                            syncToken = "",
+                            order = "",
+                            color = ""
+                        )
                     }
                 }
             }
             xmlEvent = parser.next()
         }
-        return eventList.toList()
+
+        return calendarList
     }
 }

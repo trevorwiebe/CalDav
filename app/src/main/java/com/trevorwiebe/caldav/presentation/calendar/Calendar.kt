@@ -63,8 +63,8 @@ fun Calendar(
                     }
                 }
             }
-            items(viewModel.state.eventList) { event ->
-                EventView(event = event)
+            items(viewModel.state.calList) { calendar ->
+                CalendarView(calendar = calendar)
             }
         }
     }

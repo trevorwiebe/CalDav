@@ -5,21 +5,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.trevorwiebe.caldav.data.model.Calendar
 import com.trevorwiebe.caldav.data.model.Event
-import com.trevorwiebe.caldav.domain.usecases.GetCalendars
+import com.trevorwiebe.caldav.domain.usecases.GetCalendar
+import com.trevorwiebe.caldav.domain.usecases.GetEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    private val getCalendars: GetCalendars
+    private val getEvents: GetEvents,
+    private val getCalendar: GetCalendar
 ): ViewModel() {
 
     var state by mutableStateOf(MainActivityState())
 
     init {
-        loadCal("test", "test", "https://calendar.mercyh.org/dav.php/calendars/trevorw/default/")
+        loadCalendar("test", "test", "https://calendar.mercyh.org/dav.php/calendars/test/")
+//        loadEvents("test", "test", "https://calendar.mercyh.org/dav.php/calendars/test/default/")
     }
 
     fun onEvent(event: CalDavEvents){
@@ -39,9 +43,9 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
-    private fun loadCal(username: String, password: String, url: String){
+    private fun loadEvents(username: String, password: String, url: String){
         viewModelScope.launch {
-            getCalendars(
+            getEvents(
                 username, password, url
             ).collect{ newResponse ->
                 state = state.copy(eventList = newResponse)
@@ -49,9 +53,20 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
+    private fun loadCalendar(username: String, password: String, url: String){
+        viewModelScope.launch {
+            getCalendar(
+                username, password, url
+            ).collect{ calendarList ->
+                state = state.copy(calList = calendarList.sortedBy { it.order })
+            }
+        }
+    }
+
 }
 
 data class MainActivityState(
+    val calList: List<Calendar> = emptyList(),
     var eventList: List<Event> = emptyList(),
     var username: String = "",
     var password: String = "",

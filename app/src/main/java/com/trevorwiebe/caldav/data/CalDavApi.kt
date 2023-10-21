@@ -4,7 +4,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface CalDavApi {
 
-    suspend fun getCalendars(
+    suspend fun getCalendar(
+        username: String, password: String, url: String
+    ): Flow<String>
+    suspend fun getEvents(
         username: String, password: String, url: String
     ): Flow<String>
 

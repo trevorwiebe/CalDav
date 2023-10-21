@@ -17,3 +17,13 @@ fun getEventsRequest(): CalDavRequestBody {
         method = "REPORT"
     )
 }
+
+fun getCalendarRequest(): CalDavRequestBody {
+    return CalDavRequestBody(
+        body = "<D:propfind xmlns:D=\"DAV:\">\n" +
+                "  <D:allprop/>\n" +
+                "</D:propfind>",
+        depth = "1",
+        method = "PROPFIND"
+    )
+}
