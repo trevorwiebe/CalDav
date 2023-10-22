@@ -5,13 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,7 +22,6 @@ import com.trevorwiebe.caldav.presentation.MainActivityViewModel
 @Composable
 fun CalendarScreen(
     viewModel: MainActivityViewModel,
-    navToAddCal: () -> Unit
 ) {
 
     Scaffold(
@@ -37,16 +31,8 @@ fun CalendarScreen(
                     containerColor = MaterialTheme.colorScheme.background,
                     titleContentColor = MaterialTheme.colorScheme.onBackground,
                 ),
-                actions = {
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Filled.DateRange, contentDescription = null)
-                    }    
-                    IconButton(onClick = navToAddCal) {
-                        Icon(Icons.Filled.AddCircle, contentDescription = null)
-                    }
-                },
                 title = {
-                    Text(text = "CalDav", fontSize = 25.sp)
+                    Text(text = "Saved Calendars", fontSize = 25.sp)
                 }
             )
         },
