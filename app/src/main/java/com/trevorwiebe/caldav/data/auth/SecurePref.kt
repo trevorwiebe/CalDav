@@ -4,5 +4,5 @@ interface SecurePref {
 
     fun saveUser(authUser: AuthUser)
 
-    fun getUser(): AuthUser?
+    fun getUserList(): List<AuthUser>
 }

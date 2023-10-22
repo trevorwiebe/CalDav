@@ -1,6 +1,8 @@
 package com.trevorwiebe.caldav.data.auth
 
 import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 
 class SecurePrefImpl(
@@ -8,24 +10,25 @@ class SecurePrefImpl(
 ): SecurePref {
 
     override fun saveUser(authUser: AuthUser) {
+        val userList = getUserList().toMutableList()
+        userList.add(authUser)
+        val userString = Gson().toJson(userList)
         encryptedSharedPreferences.edit()?.apply {
-            putString("username", authUser.username)
-            putString("password", authUser.password)
-            putString("serverUrl", authUser.baseUrl)
+            putString("user", userString)
             apply()
         }
     }
 
-    override fun getUser(): AuthUser? {
+    override fun getUserList(): List<AuthUser> {
         encryptedSharedPreferences.let {
-            val username = it.getString("username", null)
-            val password = it.getString("password", null)
-            val serverUrl = it.getString("serverUrl", null)
-            if (username != null && password != null && serverUrl != null) {
-                return AuthUser(username, password, serverUrl)
+            val userString = it.getString("user", null)
+            return try{
+                val userListType = object : TypeToken<ArrayList<AuthUser>>() {}.type
+                Gson().fromJson(userString, userListType)
+            }catch (e: Exception){
+                return emptyList()
             }
         }
-        return null
     }
 
 }

@@ -1,4 +1,4 @@
-package com.trevorwiebe.caldav.presentation.calendar
+package com.trevorwiebe.caldav.presentation.calendarList
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,10 +37,14 @@ fun CalendarScreen(
                     containerColor = MaterialTheme.colorScheme.background,
                     titleContentColor = MaterialTheme.colorScheme.onBackground,
                 ),
-                actions = { IconButton(onClick = navToAddCal
-                ) {
-                    Icon(Icons.Filled.AddCircle, contentDescription = null)
-                }},
+                actions = {
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Filled.DateRange, contentDescription = null)
+                    }    
+                    IconButton(onClick = navToAddCal) {
+                        Icon(Icons.Filled.AddCircle, contentDescription = null)
+                    }
+                },
                 title = {
                     Text(text = "CalDav", fontSize = 25.sp)
                 }

@@ -1,4 +1,4 @@
-package com.trevorwiebe.caldav.presentation.calendar
+package com.trevorwiebe.caldav.presentation.calendarList
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

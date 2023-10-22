@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.trevorwiebe.caldav.presentation.add_cal.AddCalendarScreen
-import com.trevorwiebe.caldav.presentation.calendar.CalendarScreen
+import com.trevorwiebe.caldav.presentation.calendarList.CalendarScreen
 import com.trevorwiebe.caldav.presentation.ui.theme.CalDavTheme
 import com.trevorwiebe.caldav.presentation.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
                 var initialScreen = CalDavScreens.Welcome
 
-                if(viewModel.state.authUserModel != null){
+                if(viewModel.state.authUserModelList.isNotEmpty()){
                     initialScreen = CalDavScreens.Calendar
                 }
 

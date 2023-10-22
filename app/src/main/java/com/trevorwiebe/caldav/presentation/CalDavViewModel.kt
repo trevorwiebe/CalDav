@@ -50,6 +50,11 @@ class MainActivityViewModel @Inject constructor(
                     state.password,
                     state.url
                 )
+                state = state.copy(
+                    username = "",
+                    password = "",
+                    url = ""
+                )
             }
         }
     }
@@ -68,21 +73,21 @@ class MainActivityViewModel @Inject constructor(
         viewModelScope.launch {
             getCalendar(
                 username, password, url
-            ).collect{ calendarList ->
-                state = state.copy(calList = calendarList.sortedBy { it.order })
+            ).collect{ calendar ->
+                if(calendar != null) {
+                    state = state.copy(
+                        calList = state.calList.toMutableList().apply { add(calendar) }
+                    )
+                }
             }
         }
     }
 
     private fun loadAuthUser(){
-        val authUser = userAuthentication.getAuthUser()
-        state = state.copy(authUserModel = authUser)
-        if(authUser != null){
-            loadCalendar(
-                authUser.username,
-                authUser.password,
-                authUser.baseUrl
-            )
+        val authUserList = userAuthentication.getAuthUserList()
+        state = state.copy(authUserModelList = authUserList)
+        authUserList.forEach { authUser ->
+            loadCalendar(authUser.username, authUser.password, authUser.baseUrl)
         }
     }
 
@@ -98,10 +103,10 @@ class MainActivityViewModel @Inject constructor(
 }
 
 data class MainActivityState(
-    val calList: List<Calendar> = emptyList(),
+    val calList: MutableList<Calendar> = mutableListOf(),
     var eventList: List<Event> = emptyList(),
     var username: String = "",
     var password: String = "",
     var url: String = "",
-    var authUserModel: AuthUserModel? = null
+    var authUserModelList: List<AuthUserModel> = emptyList()
 )

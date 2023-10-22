@@ -6,7 +6,7 @@ import com.trevorwiebe.caldav.domain.parser.CalendarParser
 import com.trevorwiebe.caldav.domain.parser.EventParser
 import com.trevorwiebe.caldav.domain.usecases.GetCalendar
 import com.trevorwiebe.caldav.domain.usecases.GetEvents
-import com.trevorwiebe.caldav.domain.usecases.auth.GetAuthUser
+import com.trevorwiebe.caldav.domain.usecases.auth.GetAuthUserList
 import com.trevorwiebe.caldav.domain.usecases.auth.SaveAuthUser
 import com.trevorwiebe.caldav.domain.usecases.auth.UserAuthentication
 import dagger.Module
@@ -61,19 +61,19 @@ object DIUseCases {
     @ViewModelScoped
     fun provideGetUser(
         securePref: SecurePref
-    ): GetAuthUser {
-        return GetAuthUser(securePref)
+    ): GetAuthUserList {
+        return GetAuthUserList(securePref)
     }
 
     @Provides
     @ViewModelScoped
     fun provideUserAuthentication(
         saveAuthUser: SaveAuthUser,
-        getAuthUser: GetAuthUser
+        getAuthUserList: GetAuthUserList
     ): UserAuthentication{
         return UserAuthentication(
             saveAuthUser = saveAuthUser,
-            getAuthUser = getAuthUser,
+            getAuthUserList = getAuthUserList,
         )
     }
 

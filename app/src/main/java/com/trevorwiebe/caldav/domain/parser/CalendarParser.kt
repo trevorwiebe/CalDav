@@ -10,7 +10,7 @@ import java.io.IOException
 class CalendarParser {
 
     @Throws(XmlPullParserException::class, IOException::class)
-    fun parseCalendar(data: String): List<Calendar> {
+    fun parseCalendar(data: String): Calendar? {
         val inputStream = data.byteInputStream()
         inputStream.use {
             val parser: XmlPullParser = Xml.newPullParser()
@@ -21,7 +21,7 @@ class CalendarParser {
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    fun parseCalendarHelper(parser: XmlPullParser): List<Calendar> {
+    fun parseCalendarHelper(parser: XmlPullParser): Calendar? {
         val calendarList = mutableListOf<Calendar>()
         var calendar = Calendar("", "", "", "", emptyList(), "", "", "")
         var xmlEvent = parser.eventType
@@ -83,25 +83,12 @@ class CalendarParser {
                 }
                 XmlPullParser.END_TAG -> {
                     if(tag == "d:response"){
-                        if(calendar.title.isNotEmpty()) {
-                            calendarList.add(calendar)
-                        }
-                        calendar = calendar.copy(
-                            title = "",
-                            description = "",
-                            url = "",
-                            timeZone = "",
-                            supportedComponentSet = emptyList(),
-                            syncToken = "",
-                            order = "",
-                            color = ""
-                        )
+                        return calendar
                     }
                 }
             }
             xmlEvent = parser.next()
         }
-
-        return calendarList
+        return null
     }
 }

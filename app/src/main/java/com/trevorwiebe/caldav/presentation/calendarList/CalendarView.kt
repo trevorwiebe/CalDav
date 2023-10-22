@@ -1,4 +1,4 @@
-package com.trevorwiebe.caldav.presentation.calendar
+package com.trevorwiebe.caldav.presentation.calendarList
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -85,6 +85,36 @@ fun CalendarView(
         )
         Text(
             text = calendar.supportedComponentSet.toString(),
+            modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
+            color = getColor(calendar.color).generateOnColor()
+        )
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .height(4.dp))
+        Text(
+            text = "Sync Token",
+            modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = getColor(calendar.color).generateOnColor()
+        )
+        Text(
+            text = calendar.syncToken,
+            modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
+            color = getColor(calendar.color).generateOnColor()
+        )
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .height(4.dp))
+        Text(
+            text = "Number of events",
+            modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = getColor(calendar.color).generateOnColor()
+        )
+        Text(
+            text = "",
             modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
             color = getColor(calendar.color).generateOnColor()
         )

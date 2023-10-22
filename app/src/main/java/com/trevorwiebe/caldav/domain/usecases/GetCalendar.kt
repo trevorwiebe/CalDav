@@ -13,8 +13,11 @@ class GetCalendar(
 
     suspend operator fun invoke(
         username: String, password: String, url: String
-    ): Flow<List<Calendar>> {
+    ): Flow<Calendar?> {
+
         return calDavApi.getCalendar(username, password, url)
-            .map { calendarParser.parseCalendar(it) }
+            .map {
+                calendarParser.parseCalendar(it)
+            }
     }
 }
