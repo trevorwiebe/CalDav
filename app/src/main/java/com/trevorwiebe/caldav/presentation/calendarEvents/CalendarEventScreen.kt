@@ -1,10 +1,12 @@
 package com.trevorwiebe.caldav.presentation.calendarEvents
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.trevorwiebe.caldav.R
 import com.trevorwiebe.caldav.presentation.CalDavScreens
+import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayBlock
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,12 +47,12 @@ fun CalendarEventScreen(
                     IconButton(onClick = {
                         navController.navigate(CalDavScreens.CalendarList)
                     }) {
-                        Icon(Icons.Filled.DateRange, contentDescription = null)
+                        Icon(Icons.Filled.List, contentDescription = "Calendar List")
                     }
                     IconButton(onClick = {
                         navController.navigate(CalDavScreens.AddCalendar)
                     }) {
-                        Icon(Icons.Filled.AddCircle, contentDescription = null)
+                        Icon(Icons.Filled.AddCircle, contentDescription = "Add Calendar")
                     }
                 },
                 title = {
@@ -59,9 +62,18 @@ fun CalendarEventScreen(
         },
     ) {  innerPadding ->
 
-        Column(modifier = Modifier.padding(innerPadding)) {
+        val itemsList = (1..200).toList()
 
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(7),
+            modifier = Modifier.padding(innerPadding)
+        ){
+            items(itemsList){
+                DayBlock(dayUi = DayUi(0L, emptyList()))
+            }
         }
+
+
     }
 
 }

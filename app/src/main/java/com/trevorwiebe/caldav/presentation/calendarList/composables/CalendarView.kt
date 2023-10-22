@@ -10,11 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trevorwiebe.caldav.data.model.Calendar
+import com.trevorwiebe.caldav.presentation.ui.theme.generateOnColor
 
 @Composable
 fun CalendarView(
@@ -126,13 +126,4 @@ fun CalendarView(
 
 fun getColor(colorString: String): Color {
     return Color(android.graphics.Color.parseColor(colorString))
-}
-
-fun Color.generateOnColor()
-        : Color {
-    return if (luminance() > 0.5f) {
-        Color.Black.copy(alpha = .8f)
-    } else {
-        Color.White
-    }
 }
