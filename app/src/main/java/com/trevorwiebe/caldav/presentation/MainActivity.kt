@@ -46,11 +46,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = CalDavScreens.AddCalendar){
                             AddCalendarScreen(
-                                viewModel = viewModel,
-                                saveCalendar = {
-                                    viewModel.onEvent(CalDavEvents.OnAddCal)
-                                    navController.navigate(CalDavScreens.CalendarList)
-                                }
+                                navController = navController
                             )
                         }
                         composable(route = CalDavScreens.Welcome){

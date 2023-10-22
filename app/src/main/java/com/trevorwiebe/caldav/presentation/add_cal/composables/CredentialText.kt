@@ -1,4 +1,4 @@
-package com.trevorwiebe.caldav.presentation.add_cal
+package com.trevorwiebe.caldav.presentation.add_cal.composables
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text

@@ -13,16 +13,20 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.trevorwiebe.caldav.presentation.CalDavEvents
-import com.trevorwiebe.caldav.presentation.MainActivityViewModel
+import androidx.navigation.NavController
+import com.trevorwiebe.caldav.presentation.CalDavScreens
+import com.trevorwiebe.caldav.presentation.add_cal.composables.CredentialText
+import com.trevorwiebe.caldav.presentation.add_cal.composables.CredentialTextView
+import com.trevorwiebe.caldav.presentation.add_cal.composables.PlainTextView
 
 @Composable
 fun AddCalendarScreen(
-    viewModel: MainActivityViewModel,
-    saveCalendar: () -> Unit
+    viewModel: AddCalendarViewModel = hiltViewModel(),
+    navController: NavController
 ) {
 
     Column(
@@ -50,24 +54,33 @@ fun AddCalendarScreen(
         PlainTextView(
             value = viewModel.state.username,
             placeHolder = "john.smith",
-            onValueChange = { viewModel.onEvent(CalDavEvents.OnUsernameChange(it)) }
+            onValueChange = { viewModel.onEvent(
+                AddCalendarEvents.OnUsernameChange(it)
+            ) }
         )
 
         CredentialText(value = "Password")
         CredentialTextView(
             value = viewModel.state.password,
-            onValueChange = { viewModel.onEvent(CalDavEvents.OnPasswordChange(it)) }
+            onValueChange = { viewModel.onEvent(
+                AddCalendarEvents.OnPasswordChange(it)
+            ) }
         )
 
         CredentialText(value = "CalDav URL")
         PlainTextView(
             value = viewModel.state.url,
             placeHolder = "https://calendar.example.com/dav.php/",
-            onValueChange = { viewModel.onEvent(CalDavEvents.OnURLChange(it)) }
+            onValueChange = { viewModel.onEvent(
+                AddCalendarEvents.OnURLChange(it)
+            ) }
         )
 
         Button(
-            onClick = saveCalendar,
+            onClick = {
+                navController.navigate(CalDavScreens.CalendarEvents)
+                viewModel.onEvent(AddCalendarEvents.OnAddCal)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp, 36.dp, 0.dp, 16.dp),
