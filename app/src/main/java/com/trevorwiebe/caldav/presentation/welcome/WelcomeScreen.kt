@@ -21,11 +21,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.trevorwiebe.caldav.R
+import com.trevorwiebe.caldav.presentation.CalDavScreens
 
 @Composable
 fun WelcomeScreen(
-    onNextClick: () -> Unit
+    navController: NavController
 ) {
 
     Box(
@@ -69,7 +71,9 @@ fun WelcomeScreen(
         }
 
         Button(
-            onClick = onNextClick,
+            onClick = {
+                navController.navigate(CalDavScreens.AddCalendar)
+            },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .padding(32.dp)

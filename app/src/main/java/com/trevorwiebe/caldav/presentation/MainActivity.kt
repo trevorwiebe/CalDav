@@ -3,7 +3,6 @@ package com.trevorwiebe.caldav.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
@@ -12,7 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.trevorwiebe.caldav.presentation.add_cal.AddCalendarScreen
 import com.trevorwiebe.caldav.presentation.calendarEvents.CalendarEventScreen
-import com.trevorwiebe.caldav.presentation.calendarList.CalendarScreen
+import com.trevorwiebe.caldav.presentation.calendarList.CalendarListScreen
 import com.trevorwiebe.caldav.presentation.ui.theme.CalDavTheme
 import com.trevorwiebe.caldav.presentation.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,43 +23,25 @@ class MainActivity : ComponentActivity() {
         setContent {
             CalDavTheme {
                 val navController = rememberNavController()
-                val viewModel: MainActivityViewModel by viewModels()
-
-                var initialScreen = CalDavScreens.Welcome
-
-                if(viewModel.state.authUserModelList.isNotEmpty()){
-                    initialScreen = CalDavScreens.CalendarEvents
-                }
 
                 Scaffold{ innerPadding ->
 
                     NavHost(
                         navController = navController,
-                        startDestination = initialScreen,
+                        startDestination = CalDavScreens.CalendarEvents,
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(route = CalDavScreens.CalendarList){
-                            CalendarScreen(
-                                viewModel = viewModel
-                            )
+                            CalendarListScreen()
                         }
                         composable(route = CalDavScreens.AddCalendar){
-                            AddCalendarScreen(
-                                navController = navController
-                            )
+                            AddCalendarScreen(navController = navController)
                         }
                         composable(route = CalDavScreens.Welcome){
-                            WelcomeScreen(
-                                onNextClick = {
-                                    navController.navigate(CalDavScreens.AddCalendar)
-                                }
-                            )
+                            WelcomeScreen(navController = navController)
                         }
                         composable(route = CalDavScreens.CalendarEvents){
-                            CalendarEventScreen(
-                                navToCalList = {navController.navigate(CalDavScreens.CalendarList)},
-                                navToAddCal = {navController.navigate(CalDavScreens.AddCalendar)}
-                            )
+                            CalendarEventScreen(navController = navController)
                         }
                     }
                 }

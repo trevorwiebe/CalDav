@@ -12,12 +12,13 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
-import com.trevorwiebe.caldav.presentation.MainActivityViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.trevorwiebe.caldav.presentation.calendarList.composables.CalendarView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalendarScreen(
-    viewModel: MainActivityViewModel,
+fun CalendarListScreen(
+    viewModel: CalendarListViewModel = hiltViewModel()
 ) {
 
     Scaffold(

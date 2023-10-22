@@ -1,4 +1,4 @@
-package com.trevorwiebe.caldav.presentation.calendarList
+package com.trevorwiebe.caldav.presentation.calendarList.composables
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth

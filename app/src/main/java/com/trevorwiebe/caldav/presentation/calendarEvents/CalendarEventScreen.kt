@@ -17,14 +17,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.trevorwiebe.caldav.R
+import com.trevorwiebe.caldav.presentation.CalDavScreens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarEventScreen(
-    navToCalList: () -> Unit,
-    navToAddCal: () -> Unit
+    viewModel: CalendarEventViewModel = hiltViewModel(),
+    navController: NavController
 ) {
+
+    if(viewModel.state.isAuthUserListNull){
+        navController.navigate(CalDavScreens.Welcome)
+    }
 
     Scaffold(
         topBar = {
@@ -34,10 +41,14 @@ fun CalendarEventScreen(
                     titleContentColor = MaterialTheme.colorScheme.onBackground,
                 ),
                 actions = {
-                    IconButton(onClick = navToCalList) {
+                    IconButton(onClick = {
+                        navController.navigate(CalDavScreens.CalendarList)
+                    }) {
                         Icon(Icons.Filled.DateRange, contentDescription = null)
                     }
-                    IconButton(onClick = navToAddCal) {
+                    IconButton(onClick = {
+                        navController.navigate(CalDavScreens.AddCalendar)
+                    }) {
                         Icon(Icons.Filled.AddCircle, contentDescription = null)
                     }
                 },

@@ -1,4 +1,4 @@
-package com.trevorwiebe.caldav.presentation
+package com.trevorwiebe.caldav.presentation.calendarList
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,16 +14,25 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(
+class CalendarListViewModel @Inject constructor(
     private val getCalendar: GetCalendar,
     private val userAuthentication: UserAuthentication
 ): ViewModel() {
 
-    var state by mutableStateOf(MainActivityState())
+    var state by mutableStateOf(CalendarListState())
 
     init {
         loadAuthUser()
     }
+
+    private fun loadAuthUser(){
+        val authUserList = userAuthentication.getAuthUserList()
+        state = state.copy(authUserModelList = authUserList)
+        authUserList.forEach { authUser ->
+            loadCalendar(authUser.username, authUser.password, authUser.baseUrl)
+        }
+    }
+
     private fun loadCalendar(username: String, password: String, url: String){
         viewModelScope.launch {
             getCalendar(
@@ -37,18 +46,9 @@ class MainActivityViewModel @Inject constructor(
             }
         }
     }
-
-    private fun loadAuthUser(){
-        val authUserList = userAuthentication.getAuthUserList()
-        state = state.copy(authUserModelList = authUserList)
-        authUserList.forEach { authUser ->
-            loadCalendar(authUser.username, authUser.password, authUser.baseUrl)
-        }
-    }
-
 }
 
-data class MainActivityState(
+data class CalendarListState(
     val calList: MutableList<Calendar> = mutableListOf(),
-    var authUserModelList: List<AuthUserModel> = emptyList()
+    var authUserModelList: List<AuthUserModel> = emptyList(),
 )
