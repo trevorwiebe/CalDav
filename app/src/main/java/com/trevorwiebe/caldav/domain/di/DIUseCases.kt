@@ -5,7 +5,8 @@ import com.trevorwiebe.caldav.data.auth.SecurePref
 import com.trevorwiebe.caldav.domain.parser.CalendarParser
 import com.trevorwiebe.caldav.domain.parser.EventParser
 import com.trevorwiebe.caldav.domain.usecases.GetCalendar
-import com.trevorwiebe.caldav.domain.usecases.GetEvents
+import com.trevorwiebe.caldav.domain.usecases.GetCalendarAndEvents
+import com.trevorwiebe.caldav.domain.usecases.GetCalendarStructure
 import com.trevorwiebe.caldav.domain.usecases.auth.GetAuthUserList
 import com.trevorwiebe.caldav.domain.usecases.auth.SaveAuthUser
 import com.trevorwiebe.caldav.domain.usecases.auth.UserAuthentication
@@ -18,6 +19,12 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @Module
 @InstallIn(ViewModelComponent::class)
 object DIUseCases {
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetCalendarStructure(): GetCalendarStructure{
+        return GetCalendarStructure()
+    }
 
     @Provides
     @ViewModelScoped

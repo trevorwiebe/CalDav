@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.List
@@ -24,6 +25,7 @@ import androidx.navigation.NavController
 import com.trevorwiebe.caldav.R
 import com.trevorwiebe.caldav.presentation.CalDavScreens
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayBlock
+import org.joda.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,14 +64,23 @@ fun CalendarEventScreen(
         },
     ) {  innerPadding ->
 
-        val itemsList = (1..200).toList()
+        val eventList = viewModel.state.calEventList
+
+        val scrollToPosition = eventList.indexOfFirst {
+            it.date == LocalDate.now()
+        }
+
+        val lazyGridState = rememberLazyGridState(
+            initialFirstVisibleItemIndex = scrollToPosition
+        )
 
         LazyVerticalGrid(
+            state = lazyGridState,
             columns = GridCells.Fixed(7),
             modifier = Modifier.padding(innerPadding)
         ){
-            items(itemsList){
-                DayBlock(dayUi = DayUi(0L, emptyList()))
+            items(eventList){
+                DayBlock(dayUi = it)
             }
         }
 
