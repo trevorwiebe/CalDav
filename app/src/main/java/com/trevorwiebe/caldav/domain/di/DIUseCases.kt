@@ -43,8 +43,8 @@ object DIUseCases {
     fun provideEvents(
         calDavApi: CalDavApi,
         eventParser: EventParser
-    ): GetEvents {
-        return GetEvents(calDavApi, eventParser)
+    ): GetCalendarAndEvents {
+        return GetCalendarAndEvents(calDavApi, eventParser)
     }
 
     @Provides

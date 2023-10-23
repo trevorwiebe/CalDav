@@ -6,7 +6,7 @@ import com.trevorwiebe.caldav.domain.parser.EventParser
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class GetEvents(
+class GetCalendarAndEvents(
     private val calDavApi: CalDavApi,
     private val parser: EventParser
 ) {
