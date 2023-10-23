@@ -13,8 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.trevorwiebe.caldav.domain.model.EventModel
 import com.trevorwiebe.caldav.presentation.calendarEvents.DayUi
+import org.joda.time.LocalDate
 
 @Composable
 fun DayBlock(
@@ -29,23 +31,22 @@ fun DayBlock(
             .background(Color.White)
             .height(96.dp)
     ) {
-        Text(
-            modifier = Modifier.padding(2.dp, 0.dp, 2.dp, 0.dp),
-            text = "24"
-        )
+        if(dayUi.date == LocalDate.now()){
+            TodayDateLabel(
+                date = dayUi.date.dayOfMonth.toString(),
+                color = MaterialTheme.colorScheme.tertiary
+            )
+        }else{
+            Text(
+                modifier = Modifier.padding(2.dp, 0.dp, 2.dp, 0.dp),
+                text = dayUi.date.dayOfMonth.toString(),
+                fontSize = 14.sp
+            )
+        }
         DayItemEvent(
-            eventModel = EventModel("", "", "", "", ""),
-            color = MaterialTheme.colorScheme.primary
+            eventModel = EventModel("Test", "", "", "", ""),
+            color = MaterialTheme.colorScheme.secondary
         )
-        DayItemEvent(
-            eventModel = EventModel("", "", "", "", ""),
-            color = MaterialTheme.colorScheme.primary
-        )
-        DayItemEvent(
-            eventModel = EventModel("", "", "", "", ""),
-            color = MaterialTheme.colorScheme.primary
-        )
-        MoreEventsEllipsis()
     }
 
 }
