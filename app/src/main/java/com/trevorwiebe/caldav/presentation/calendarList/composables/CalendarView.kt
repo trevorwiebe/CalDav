@@ -114,7 +114,7 @@ fun CalendarView(
             color = getColor(calendar.color).generateOnColor()
         )
         Text(
-            text = "",
+            text = calendar.numberOfEvents.toString(),
             modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
             color = getColor(calendar.color).generateOnColor()
         )

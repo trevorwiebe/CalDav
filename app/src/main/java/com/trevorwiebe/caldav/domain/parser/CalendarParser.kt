@@ -1,6 +1,5 @@
 package com.trevorwiebe.caldav.domain.parser
 
-import android.util.Log
 import android.util.Xml
 import com.trevorwiebe.caldav.data.model.Calendar
 import org.xmlpull.v1.XmlPullParser
@@ -22,7 +21,6 @@ class CalendarParser {
 
     @Throws(XmlPullParserException::class, IOException::class)
     fun parseCalendarHelper(parser: XmlPullParser): Calendar? {
-        val calendarList = mutableListOf<Calendar>()
         var calendar = Calendar("", "", "", "", emptyList(), "", "", "")
         var xmlEvent = parser.eventType
         var tag: String?
@@ -34,12 +32,12 @@ class CalendarParser {
         var syncToken = false
         var order = false
         var color = false
+        var numberOfEvents = 0
 
         while (xmlEvent != XmlPullParser.END_DOCUMENT){
             tag = parser.name
             when (xmlEvent){
                 XmlPullParser.START_TAG -> {
-                    Log.d(TAG, "parseCalendarHelper: start $tag")
                     when(tag){
                         "d:href" -> url = true
                         "s:sync-token" -> syncToken = true
@@ -48,10 +46,10 @@ class CalendarParser {
                         "cal:calendar-timezone" -> timeZone = true
                         "x1:calendar-order" -> order = true
                         "x1:calendar-color" -> color = true
+                        "d:response" -> numberOfEvents++
                     }
                 }
                 XmlPullParser.TEXT -> {
-                    Log.d(TAG, "parseCalendarHelper: ${parser.text}")
                     if(url){
                         calendar = calendar.copy(url = parser.text)
                         url = false
@@ -82,7 +80,9 @@ class CalendarParser {
                     }
                 }
                 XmlPullParser.END_TAG -> {
+                    // TODO: fix this issue where the parser stops after the first 'd:response'
                     if(tag == "d:response"){
+                        calendar = calendar.copy(numberOfEvents = numberOfEvents)
                         return calendar
                     }
                 }

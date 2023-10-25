@@ -8,5 +8,6 @@ data class Calendar(
     val supportedComponentSet: List<CalComponentSet>,
     val syncToken: String = "",
     val order: String = "",
-    val color: String = ""
+    val color: String = "",
+    val numberOfEvents: Int = 0
 )
