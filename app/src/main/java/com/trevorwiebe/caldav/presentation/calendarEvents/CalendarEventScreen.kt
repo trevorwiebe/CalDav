@@ -1,10 +1,12 @@
 package com.trevorwiebe.caldav.presentation.calendarEvents
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.List
@@ -17,14 +19,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.trevorwiebe.caldav.R
 import com.trevorwiebe.caldav.presentation.CalDavScreens
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayBlock
+import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,6 +44,15 @@ fun CalendarEventScreen(
         navController.navigate(CalDavScreens.Welcome)
     }
 
+    val eventList = viewModel.state.calEventList
+    val scrollToPosition = eventList.indexOfFirst {
+        it.date == LocalDate.now()
+    }
+    val lazyGridState = rememberLazyGridState(
+        initialFirstVisibleItemIndex = scrollToPosition
+    )
+    val coroutineScope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -46,6 +61,20 @@ fun CalendarEventScreen(
                     titleContentColor = MaterialTheme.colorScheme.onBackground,
                 ),
                 actions = {
+                    IconButton(onClick = {
+                        coroutineScope.launch {
+                            lazyGridState.animateScrollToItem(scrollToPosition)
+                        }
+                    }) {
+                        Text(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(MaterialTheme.colorScheme.tertiary)
+                                .padding(4.dp, 1.dp, 4.dp, 1.dp),
+                            text = "25",
+                            color = MaterialTheme.colorScheme.onTertiary
+                        )
+                    }
                     IconButton(onClick = {
                         navController.navigate(CalDavScreens.CalendarList)
                     }) {
@@ -63,17 +92,6 @@ fun CalendarEventScreen(
             )
         },
     ) {  innerPadding ->
-
-        val eventList = viewModel.state.calEventList
-
-        val scrollToPosition = eventList.indexOfFirst {
-            it.date == LocalDate.now()
-        }
-
-        val lazyGridState = rememberLazyGridState(
-            initialFirstVisibleItemIndex = scrollToPosition
-        )
-
         LazyVerticalGrid(
             state = lazyGridState,
             columns = GridCells.Fixed(7),
@@ -83,8 +101,6 @@ fun CalendarEventScreen(
                 DayBlock(dayUi = it)
             }
         }
-
-
     }
 
 }
