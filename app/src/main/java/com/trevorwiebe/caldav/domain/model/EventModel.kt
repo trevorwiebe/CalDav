@@ -1,9 +1,13 @@
 package com.trevorwiebe.caldav.domain.model
 
+import org.joda.time.LocalDate
+
 data class EventModel(
-    val title: String = "",
     var id: String?,
     var url: String?,
     var status: String?,
-    var calendarData: String?
+    var summary: String?,
+    var description: String?,
+    var startDate: LocalDate?,
+    var endDate: LocalDate?
 )

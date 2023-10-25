@@ -21,14 +21,15 @@ fun DayItemEvent(
 ) {
 
         Text(
-            text = eventModel.title,
+            text = eventModel.summary ?: "",
             color = color.generateOnColor(),
-            fontSize = 12.sp,
+            fontSize = 10.sp,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(1.5.dp, .5.dp, 1.5.dp, .5.dp)
                 .clip(RoundedCornerShape(6.dp))
                 .background(color)
-                .padding(2.dp, 0.dp, 2.dp, 0.dp)
+                .padding(2.dp, 0.dp, 2.dp, 0.dp),
+            maxLines = 1
         )
 }

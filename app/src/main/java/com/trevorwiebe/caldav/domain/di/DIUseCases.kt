@@ -4,8 +4,9 @@ import com.trevorwiebe.caldav.data.CalDavApi
 import com.trevorwiebe.caldav.data.auth.SecurePref
 import com.trevorwiebe.caldav.domain.parser.CalendarParser
 import com.trevorwiebe.caldav.domain.parser.EventParser
+import com.trevorwiebe.caldav.domain.usecases.ConnectEventToDayUI
 import com.trevorwiebe.caldav.domain.usecases.GetCalendar
-import com.trevorwiebe.caldav.domain.usecases.GetCalendarAndEvents
+import com.trevorwiebe.caldav.domain.usecases.GetEvents
 import com.trevorwiebe.caldav.domain.usecases.GetCalendarStructure
 import com.trevorwiebe.caldav.domain.usecases.auth.GetAuthUserList
 import com.trevorwiebe.caldav.domain.usecases.auth.SaveAuthUser
@@ -40,11 +41,17 @@ object DIUseCases {
 
     @Provides
     @ViewModelScoped
+    fun provideConnectEventToDayUi(): ConnectEventToDayUI{
+        return ConnectEventToDayUI()
+    }
+
+    @Provides
+    @ViewModelScoped
     fun provideEvents(
         calDavApi: CalDavApi,
         eventParser: EventParser
-    ): GetCalendarAndEvents {
-        return GetCalendarAndEvents(calDavApi, eventParser)
+    ): GetEvents {
+        return GetEvents(calDavApi, eventParser)
     }
 
     @Provides
