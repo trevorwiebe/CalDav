@@ -1,6 +1,8 @@
 package com.trevorwiebe.caldav.presentation.calendarEvents
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -30,6 +32,7 @@ import androidx.navigation.NavController
 import com.trevorwiebe.caldav.R
 import com.trevorwiebe.caldav.presentation.CalDavScreens
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayBlock
+import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayOfWeekText
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 
@@ -92,13 +95,26 @@ fun CalendarEventScreen(
             )
         },
     ) {  innerPadding ->
-        LazyVerticalGrid(
-            state = lazyGridState,
-            columns = GridCells.Fixed(7),
-            modifier = Modifier.padding(innerPadding)
-        ){
-            items(eventList){
-                DayBlock(dayUi = it)
+
+        Column(modifier = Modifier.padding(innerPadding)) {
+
+            Row {
+                DayOfWeekText(dayInitial = "S", modifier = Modifier.weight(1f))
+                DayOfWeekText(dayInitial = "M", modifier = Modifier.weight(1f))
+                DayOfWeekText(dayInitial = "T", modifier = Modifier.weight(1f))
+                DayOfWeekText(dayInitial = "W", modifier = Modifier.weight(1f))
+                DayOfWeekText(dayInitial = "T", modifier = Modifier.weight(1f))
+                DayOfWeekText(dayInitial = "F", modifier = Modifier.weight(1f))
+                DayOfWeekText(dayInitial = "S", modifier = Modifier.weight(1f))
+            }
+
+            LazyVerticalGrid(
+                state = lazyGridState,
+                columns = GridCells.Fixed(7)
+            ){
+                items(eventList){
+                    DayBlock(dayUi = it)
+                }
             }
         }
     }
