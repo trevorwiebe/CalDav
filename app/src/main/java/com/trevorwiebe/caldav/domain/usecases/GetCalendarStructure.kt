@@ -27,7 +27,7 @@ class GetCalendarStructure{
 
         val listToRemove = mutableListOf<DayUi>()
         for(dayUi in dateUiList){
-            if(dayUi.date.dayOfWeek == 1){
+            if(dayUi.date.dayOfWeek == 7){
                 break
             }else{
                 listToRemove.add(dayUi)
