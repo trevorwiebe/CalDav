@@ -1,5 +1,6 @@
 package com.trevorwiebe.caldav.data
 
+import com.trevorwiebe.caldav.BuildConfig
 import com.trevorwiebe.caldav.data.model.CalDavRequestBody
 import com.trevorwiebe.caldav.data.util.getCalendarRequest
 import com.trevorwiebe.caldav.data.util.getEventsRequest
@@ -10,11 +11,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.logging.HttpLoggingInterceptor
 
-class CalDavApiImpl (
-    private val requestBuilder: Request.Builder,
-    private val okHttpClient: OkHttpClient
-): CalDavApi {
+class CalDavApiImpl: CalDavApi {
 
     override suspend fun getCalendar(
         username: String,
@@ -24,7 +23,7 @@ class CalDavApiImpl (
         val credential = Credentials.basic(username, password)
         val requestBody = getCalendarRequest()
         val request = generateRequest(credential, requestBody, url)
-        return okHttpClient.newCall(request).toFlow()
+        return getOkHttp().newCall(request).toFlow()
     }
 
     override suspend fun getEvents(
@@ -33,7 +32,7 @@ class CalDavApiImpl (
         val credential = Credentials.basic(username, password)
         val requestBody = getEventsRequest()
         val request = generateRequest(credential, requestBody, url)
-        return okHttpClient.newCall(request).toFlow()
+        return getOkHttp().newCall(request).toFlow()
     }
 
     private fun generateRequest(
@@ -41,7 +40,7 @@ class CalDavApiImpl (
         requestBody: CalDavRequestBody,
         url: String
     ): Request{
-        return requestBuilder.url(url)
+        return Request.Builder().url(url)
             .addHeader("DEPTH", requestBody.depth)
             .addHeader("Content-Type", "application/xml; charset=utf-8")
             .addHeader("Prefer", "return-minimal")
@@ -50,6 +49,19 @@ class CalDavApiImpl (
             )
             .header("Authorization", credential)
             .build()
+    }
+
+    private fun getOkHttp(): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        return if(BuildConfig.DEBUG){
+            OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build()
+        }else{
+            OkHttpClient.Builder()
+                .build()
+        }
     }
 
 }
