@@ -11,7 +11,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.trevorwiebe.caldav.presentation.add_cal.AddCalendarScreen
 import com.trevorwiebe.caldav.presentation.calendarEvents.CalendarEventScreen
-import com.trevorwiebe.caldav.presentation.calendarList.CalendarListScreen
 import com.trevorwiebe.caldav.presentation.ui.theme.CalDavTheme
 import com.trevorwiebe.caldav.presentation.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,9 +30,6 @@ class MainActivity : ComponentActivity() {
                         startDestination = CalDavScreens.CalendarEvents,
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable(route = CalDavScreens.CalendarList){
-                            CalendarListScreen()
-                        }
                         composable(route = CalDavScreens.AddCalendar){
                             AddCalendarScreen(navController = navController)
                         }

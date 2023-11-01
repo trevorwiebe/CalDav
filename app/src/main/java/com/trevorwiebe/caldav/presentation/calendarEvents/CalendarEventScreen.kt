@@ -4,26 +4,32 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,6 +39,7 @@ import com.trevorwiebe.caldav.R
 import com.trevorwiebe.caldav.presentation.CalDavScreens
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayBlock
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayOfWeekText
+import com.trevorwiebe.caldav.presentation.calendarEvents.composables.CalendarView
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 
@@ -47,6 +54,7 @@ fun CalendarEventScreen(
         navController.navigate(CalDavScreens.Welcome)
     }
 
+    val scaffoldState = rememberBottomSheetScaffoldState()
     val eventList = viewModel.state.calEventList
     val scrollToPosition = eventList.indexOfFirst {
         it.date == LocalDate.now()
@@ -55,8 +63,10 @@ fun CalendarEventScreen(
         initialFirstVisibleItemIndex = scrollToPosition
     )
     val coroutineScope = rememberCoroutineScope()
+    val bottomScope = rememberCoroutineScope()
 
-    Scaffold(
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -79,7 +89,9 @@ fun CalendarEventScreen(
                         )
                     }
                     IconButton(onClick = {
-                        navController.navigate(CalDavScreens.CalendarList)
+                        bottomScope.launch {
+                            scaffoldState.bottomSheetState.expand()
+                        }
                     }) {
                         Icon(Icons.Filled.List, contentDescription = "Calendar List")
                     }
@@ -94,6 +106,26 @@ fun CalendarEventScreen(
                 }
             )
         },
+        sheetContent = {
+            Surface(
+                // Add this somewhere near the top of your layout, above any scrolling layouts
+                modifier = Modifier.nestedScroll(rememberNestedScrollInteropConnection())
+            ) {
+                LazyColumn {
+                    item{
+                        Text(
+                            modifier = Modifier.padding(8.dp),
+                            text = "Select calendars",
+                            fontSize = 20.sp
+                        )
+                    }
+                    items(viewModel.state.calList){
+                        CalendarView(calendar = it)
+                    }
+                }
+            }
+        },
+        sheetPeekHeight = 0.dp
     ) {  innerPadding ->
 
         Column(modifier = Modifier.padding(innerPadding)) {
