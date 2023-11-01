@@ -130,7 +130,7 @@ fun CalendarEventScreen(
 
         Column(modifier = Modifier.padding(innerPadding)) {
 
-            Row {
+            Row(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
                 DayOfWeekText(dayInitial = "S", modifier = Modifier.weight(1f))
                 DayOfWeekText(dayInitial = "M", modifier = Modifier.weight(1f))
                 DayOfWeekText(dayInitial = "T", modifier = Modifier.weight(1f))
