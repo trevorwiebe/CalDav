@@ -18,20 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.trevorwiebe.caldav.data.model.Calendar
+import com.trevorwiebe.caldav.domain.model.CalendarModel
 import com.trevorwiebe.caldav.presentation.ui.theme.generateOnColorFromBaseColorString
 import com.trevorwiebe.caldav.presentation.ui.theme.getColorFromString
 
 @Composable
 fun CalendarView(
-    calendar: Calendar
+    calendarModel: CalendarModel
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = calendar.color.getColorFromString(),
+            containerColor = calendarModel.color.getColorFromString(),
         )
     ) {
         Row {
@@ -48,11 +48,11 @@ fun CalendarView(
                     .fillMaxWidth()
                     .height(4.dp))
                 Text(
-                    text = calendar.title,
+                    text = calendarModel.title,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
-                    color = calendar.color.generateOnColorFromBaseColorString()
+                    color = calendarModel.color.generateOnColorFromBaseColorString()
                 )
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
@@ -60,17 +60,17 @@ fun CalendarView(
                 )
                 Text(
                     modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
-                    text = calendar.description,
-                    color = calendar.color.generateOnColorFromBaseColorString()
+                    text = calendarModel.description,
+                    color = calendarModel.color.generateOnColorFromBaseColorString()
                 )
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
                     .height(4.dp))
-                val eventString = "Total events: ${calendar.numberOfEvents.toString()}"
+                val eventString = "Total events: ${calendarModel.numberOfEvents.toString()}"
                 Text(
                     text = eventString,
                     modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
-                    color = calendar.color.generateOnColorFromBaseColorString()
+                    color = calendarModel.color.generateOnColorFromBaseColorString()
                 )
                 Spacer(modifier = Modifier
                     .fillMaxWidth()

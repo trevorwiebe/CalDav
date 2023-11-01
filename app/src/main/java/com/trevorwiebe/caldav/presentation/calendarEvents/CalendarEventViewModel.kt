@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.trevorwiebe.caldav.data.model.Calendar
 import com.trevorwiebe.caldav.domain.model.AuthUserModel
+import com.trevorwiebe.caldav.domain.model.CalendarModel
 import com.trevorwiebe.caldav.domain.model.EventModel
 import com.trevorwiebe.caldav.domain.usecases.ConnectEventToDayUI
 import com.trevorwiebe.caldav.domain.usecases.GetCalendar
@@ -89,7 +89,7 @@ class CalendarEventViewModel @Inject constructor(
 
 data class CalendarEventState(
     val dayUiList: List<DayUi> = listOf(),
-    val calList: MutableList<Calendar> = mutableListOf(),
+    val calList: MutableList<CalendarModel> = mutableListOf(),
     val eventList: MutableList<EventModel> = mutableListOf(),
     var authUserModelList: List<AuthUserModel> = emptyList(),
     val isAuthUserListNull: Boolean = false

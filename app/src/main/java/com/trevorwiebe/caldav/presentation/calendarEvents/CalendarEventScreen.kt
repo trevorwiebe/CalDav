@@ -120,7 +120,7 @@ fun CalendarEventScreen(
                         )
                     }
                     items(viewModel.state.calList){
-                        CalendarView(calendar = it)
+                        CalendarView(calendarModel = it)
                     }
                 }
             }
