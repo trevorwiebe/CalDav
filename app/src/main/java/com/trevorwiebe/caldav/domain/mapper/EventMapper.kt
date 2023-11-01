@@ -11,6 +11,7 @@ fun Event.toEventModel(): EventModel {
         summary = summary,
         description = description,
         startDate = startDate,
-        endDate = endDate
+        endDate = endDate,
+        color = "#3b3b3b"
     )
 }

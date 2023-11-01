@@ -15,12 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trevorwiebe.caldav.data.model.Calendar
-import com.trevorwiebe.caldav.presentation.ui.theme.generateOnColor
+import com.trevorwiebe.caldav.presentation.ui.theme.generateOnColorFromBaseColorString
+import com.trevorwiebe.caldav.presentation.ui.theme.getColorFromString
 
 @Composable
 fun CalendarView(
@@ -31,7 +31,7 @@ fun CalendarView(
             .fillMaxWidth()
             .padding(8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = getColor(calendar.color),
+            containerColor = calendar.color.getColorFromString(),
         )
     ) {
         Row {
@@ -52,7 +52,7 @@ fun CalendarView(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
-                    color = getColor(calendar.color).generateOnColor()
+                    color = calendar.color.generateOnColorFromBaseColorString()
                 )
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
@@ -61,7 +61,7 @@ fun CalendarView(
                 Text(
                     modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
                     text = calendar.description,
-                    color = getColor(calendar.color).generateOnColor()
+                    color = calendar.color.generateOnColorFromBaseColorString()
                 )
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
@@ -70,7 +70,7 @@ fun CalendarView(
                 Text(
                     text = eventString,
                     modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
-                    color = getColor(calendar.color).generateOnColor()
+                    color = calendar.color.generateOnColorFromBaseColorString()
                 )
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
@@ -78,8 +78,4 @@ fun CalendarView(
             }
         }
     }
-}
-
-fun getColor(colorString: String): Color {
-    return Color(android.graphics.Color.parseColor(colorString))
 }

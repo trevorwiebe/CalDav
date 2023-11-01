@@ -9,5 +9,6 @@ data class EventModel(
     var summary: String?,
     var description: String?,
     var startDate: LocalDate?,
-    var endDate: LocalDate?
+    var endDate: LocalDate?,
+    var color: String
 )
