@@ -9,26 +9,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.trevorwiebe.caldav.domain.model.EventModel
 import com.trevorwiebe.caldav.presentation.ui.theme.generateOnColorFromBaseColorString
 import com.trevorwiebe.caldav.presentation.ui.theme.getColorFromString
 
 @Composable
-fun DayItemEvent(
+fun DayListEventItem(
     eventModel: EventModel
 ) {
 
     Text(
         text = eventModel.summary ?: "",
         color = eventModel.color.generateOnColorFromBaseColorString(),
-        fontSize = 10.sp,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(1.5.dp, .5.dp, 1.5.dp, .5.dp)
-            .clip(RoundedCornerShape(6.dp))
+            .padding(8.dp, 8.dp, 8.dp, 0.dp)
+            .clip(RoundedCornerShape(8.dp))
             .background(eventModel.color.getColorFromString())
-            .padding(2.dp, 0.dp, 2.dp, 0.dp),
+            .padding(8.dp),
         maxLines = 1
     )
 }

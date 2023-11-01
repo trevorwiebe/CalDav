@@ -98,5 +98,6 @@ data class CalendarEventState(
     val calList: MutableList<CalendarModel> = mutableListOf(),
     val eventList: MutableList<EventModel> = mutableListOf(),
     var authUserModelList: List<AuthUserModel> = emptyList(),
-    val isAuthUserListNull: Boolean = false
+    val isAuthUserListNull: Boolean = false,
+    val isGrid: Boolean = false
 )

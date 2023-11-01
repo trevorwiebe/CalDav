@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
@@ -40,6 +41,7 @@ import com.trevorwiebe.caldav.presentation.CalDavScreens
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayBlock
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayOfWeekText
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.CalendarView
+import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayList
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 
@@ -60,6 +62,9 @@ fun CalendarEventScreen(
         it.date == LocalDate.now()
     }
     val lazyGridState = rememberLazyGridState(
+        initialFirstVisibleItemIndex = scrollToPosition
+    )
+    val lazyColumnState = rememberLazyListState(
         initialFirstVisibleItemIndex = scrollToPosition
     )
     val coroutineScope = rememberCoroutineScope()
@@ -130,22 +135,33 @@ fun CalendarEventScreen(
 
         Column(modifier = Modifier.padding(innerPadding)) {
 
-            Row(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                DayOfWeekText(dayInitial = "S", modifier = Modifier.weight(1f))
-                DayOfWeekText(dayInitial = "M", modifier = Modifier.weight(1f))
-                DayOfWeekText(dayInitial = "T", modifier = Modifier.weight(1f))
-                DayOfWeekText(dayInitial = "W", modifier = Modifier.weight(1f))
-                DayOfWeekText(dayInitial = "T", modifier = Modifier.weight(1f))
-                DayOfWeekText(dayInitial = "F", modifier = Modifier.weight(1f))
-                DayOfWeekText(dayInitial = "S", modifier = Modifier.weight(1f))
-            }
+            if(viewModel.state.isGrid){
 
-            LazyVerticalGrid(
-                state = lazyGridState,
-                columns = GridCells.Fixed(7)
-            ){
-                items(eventList){
-                    DayBlock(dayUi = it)
+                Row(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                    DayOfWeekText(dayInitial = "S", modifier = Modifier.weight(1f))
+                    DayOfWeekText(dayInitial = "M", modifier = Modifier.weight(1f))
+                    DayOfWeekText(dayInitial = "T", modifier = Modifier.weight(1f))
+                    DayOfWeekText(dayInitial = "W", modifier = Modifier.weight(1f))
+                    DayOfWeekText(dayInitial = "T", modifier = Modifier.weight(1f))
+                    DayOfWeekText(dayInitial = "F", modifier = Modifier.weight(1f))
+                    DayOfWeekText(dayInitial = "S", modifier = Modifier.weight(1f))
+                }
+
+                LazyVerticalGrid(
+                    state = lazyGridState,
+                    columns = GridCells.Fixed(7)
+                ){
+                    items(eventList){
+                        DayBlock(dayUi = it)
+                    }
+                }
+            }else{
+                LazyColumn(
+                    state = lazyColumnState
+                ){
+                    items(eventList){
+                        DayList(dayUi = it)
+                    }
                 }
             }
         }
