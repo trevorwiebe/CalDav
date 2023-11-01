@@ -55,7 +55,7 @@ fun CalendarEventScreen(
     }
 
     val scaffoldState = rememberBottomSheetScaffoldState()
-    val eventList = viewModel.state.calEventList
+    val eventList = viewModel.state.dayUiList
     val scrollToPosition = eventList.indexOfFirst {
         it.date == LocalDate.now()
     }

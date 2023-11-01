@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trevorwiebe.caldav.data.model.Calendar
 import com.trevorwiebe.caldav.domain.model.AuthUserModel
+import com.trevorwiebe.caldav.domain.model.EventModel
 import com.trevorwiebe.caldav.domain.usecases.ConnectEventToDayUI
 import com.trevorwiebe.caldav.domain.usecases.GetCalendar
 import com.trevorwiebe.caldav.domain.usecases.GetCalendarStructure
@@ -32,36 +33,38 @@ class CalendarEventViewModel @Inject constructor(
     }
 
     private fun loadAuthUser(){
+
+        val dayUiStructure = getCalendarStructure()
         val authUserList = userAuthentication.getAuthUserList()
-        state = state.copy(authUserModelList = authUserList)
+        state = state.copy(
+            authUserModelList = authUserList,
+            dayUiList = dayUiStructure
+        )
         if(authUserList.isEmpty()){
             state = state.copy(isAuthUserListNull = true)
         }else{
-            val dayUiStructure = getCalendarStructure()
-            state = state.copy(calEventList = dayUiStructure)
-
             authUserList.forEach {authUser ->
                 loadCalendar(authUser)
+                loadEvents(authUser, dayUiStructure)
             }
-
-            val authUser = authUserList[0]
-            loadEvents(authUser, dayUiStructure)
-
         }
     }
 
-    private fun loadEvents(authUserModel: AuthUserModel, calendarUiStructure: List<DayUi>){
+    private fun loadEvents(authUserModel: AuthUserModel, dayUiStructure: List<DayUi>){
         viewModelScope.launch{
             getEvents(
                 authUserModel.username,
                 authUserModel.password,
                 authUserModel.baseUrl
-            ).collect{
-                val dayUiList = connectEventToDayUI(
-                    it,
-                    calendarUiStructure
+            ).collect{eventList ->
+                state = state.copy(
+                    eventList = state.eventList.toMutableList().apply {
+                        addAll(eventList.toMutableList())
+                    }
                 )
-                state = state.copy(calEventList = dayUiList)
+                state = state.copy(
+                    dayUiList = connectEventToDayUI(state.eventList, dayUiStructure)
+                )
             }
         }
     }
@@ -73,7 +76,9 @@ class CalendarEventViewModel @Inject constructor(
             ).collect{ calendar ->
                 if(calendar != null) {
                     state = state.copy(
-                        calList = state.calList.toMutableList().apply { add(calendar) }
+                        calList = state.calList.toMutableList().apply {
+                            add(calendar)
+                        }
                     )
                 }
             }
@@ -83,8 +88,9 @@ class CalendarEventViewModel @Inject constructor(
 }
 
 data class CalendarEventState(
-    val calEventList: List<DayUi> = listOf(),
+    val dayUiList: List<DayUi> = listOf(),
     val calList: MutableList<Calendar> = mutableListOf(),
+    val eventList: MutableList<EventModel> = mutableListOf(),
     var authUserModelList: List<AuthUserModel> = emptyList(),
     val isAuthUserListNull: Boolean = false
 )
