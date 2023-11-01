@@ -44,32 +44,12 @@ class CalendarEventViewModel @Inject constructor(
             state = state.copy(isAuthUserListNull = true)
         }else{
             authUserList.forEach {authUser ->
-                loadCalendar(authUser)
-                loadEvents(authUser, dayUiStructure)
+                loadCalendar(authUser, dayUiStructure)
             }
         }
     }
 
-    private fun loadEvents(authUserModel: AuthUserModel, dayUiStructure: List<DayUi>){
-        viewModelScope.launch{
-            getEvents(
-                authUserModel.username,
-                authUserModel.password,
-                authUserModel.baseUrl
-            ).collect{eventList ->
-                state = state.copy(
-                    eventList = state.eventList.toMutableList().apply {
-                        addAll(eventList.toMutableList())
-                    }
-                )
-                state = state.copy(
-                    dayUiList = connectEventToDayUI(state.eventList, dayUiStructure)
-                )
-            }
-        }
-    }
-
-    private fun loadCalendar(authUserModel: AuthUserModel){
+    private fun loadCalendar(authUserModel: AuthUserModel, dayUiStructure: List<DayUi>){
         viewModelScope.launch {
             getCalendar(
                 authUserModel.username, authUserModel.password, authUserModel.baseUrl
@@ -81,6 +61,32 @@ class CalendarEventViewModel @Inject constructor(
                         }
                     )
                 }
+
+                loadEvents(authUserModel, dayUiStructure, calendar?.color ?: "#3b3b3b" )
+            }
+        }
+    }
+
+    private fun loadEvents(
+        authUserModel: AuthUserModel,
+        dayUiStructure: List<DayUi>,
+        eventColor: String
+    ){
+        viewModelScope.launch{
+            getEvents(
+                authUserModel.username,
+                authUserModel.password,
+                authUserModel.baseUrl,
+                eventColor
+            ).collect{eventList ->
+                state = state.copy(
+                    eventList = state.eventList.toMutableList().apply {
+                        addAll(eventList.toMutableList())
+                    }
+                )
+                state = state.copy(
+                    dayUiList = connectEventToDayUI(state.eventList, dayUiStructure)
+                )
             }
         }
     }

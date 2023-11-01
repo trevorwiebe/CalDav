@@ -13,9 +13,11 @@ class GetEvents(
 ) {
 
     suspend operator fun invoke(
-        username: String, password: String, url: String
+        username: String, password: String, url: String, eventColor: String
     ): Flow<List<EventModel>> {
         return calDavApi.getEvents(username, password, url)
-            .map { parser.parseEvents(it).map { it.toEventModel() } }
+            .map {
+                parser.parseEvents(it).map { it.toEventModel(eventColor) }
+            }
     }
 }

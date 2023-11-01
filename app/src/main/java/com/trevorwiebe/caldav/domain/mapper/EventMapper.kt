@@ -3,7 +3,7 @@ package com.trevorwiebe.caldav.domain.mapper
 import com.trevorwiebe.caldav.data.model.Event
 import com.trevorwiebe.caldav.domain.model.EventModel
 
-fun Event.toEventModel(): EventModel {
+fun Event.toEventModel(color: String): EventModel {
     return EventModel(
         id = id,
         url = url,
@@ -12,6 +12,6 @@ fun Event.toEventModel(): EventModel {
         description = description,
         startDate = startDate,
         endDate = endDate,
-        color = "#3b3b3b"
+        color = color
     )
 }
