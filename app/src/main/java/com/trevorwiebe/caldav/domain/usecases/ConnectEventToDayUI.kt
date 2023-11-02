@@ -8,7 +8,7 @@ class ConnectEventToDayUI{
 
         dayUiList.forEach { dayUi ->
             val date = dayUi.date
-            dayUi.eventList = eventList.filter { it.startDate == date }
+            dayUi.eventList = eventList.filter { it.startDate?.toLocalDate() == date }
         }
 
         return dayUiList

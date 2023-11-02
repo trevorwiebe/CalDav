@@ -1,6 +1,6 @@
 package com.trevorwiebe.caldav.domain.model
 
-import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 
 data class EventModel(
     var id: String?,
@@ -9,7 +9,7 @@ data class EventModel(
     var summary: String?,
     var frequency: String?,
     var description: String?,
-    var startDate: LocalDate?,
-    var endDate: LocalDate?,
+    var startDate: LocalDateTime?,
+    var endDate: LocalDateTime?,
     var color: String
 )

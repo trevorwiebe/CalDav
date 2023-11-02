@@ -9,6 +9,6 @@ data class Event(
     var summary: String?,
     var frequency: String?,
     var description: String?,
-    var startDate: LocalDate?,
-    var endDate: LocalDate?
+    var startDate: LocalDateTime?,
+    var endDate: LocalDateTime?
 )

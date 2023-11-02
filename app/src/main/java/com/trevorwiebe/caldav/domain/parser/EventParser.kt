@@ -2,14 +2,12 @@ package com.trevorwiebe.caldav.domain.parser
 
 import android.util.Xml
 import com.trevorwiebe.caldav.data.model.Event
-import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
-
-const val TAG = "CalendarParser"
 class EventParser{
 
     @Throws(XmlPullParserException::class, IOException::class)
@@ -76,7 +74,7 @@ class EventParser{
         return eventList.toList()
     }
 
-    fun parseICSCalendar(currentEvent: Event, calendarData: String): Event {
+    private fun parseICSCalendar(currentEvent: Event, calendarData: String): Event {
 
         val lines = calendarData.split("\n")
 
@@ -120,14 +118,14 @@ class EventParser{
         }
         return currentEvent
     }
-    private fun parseDate(dateString: String): LocalDate {
+    private fun parseDate(dateString: String): LocalDateTime {
         val pattern = if(dateString.length == 8){
             "yyyyMMdd"
         }else{
             "yyyyMMdd'T'HHmmss"
         }
         val dateTimeFormatter: DateTimeFormatter = DateTimeFormat.forPattern(pattern)
-        val date = LocalDate.parse(dateString, dateTimeFormatter)
+        val date = LocalDateTime.parse(dateString, dateTimeFormatter)
         return date
     }
 }
