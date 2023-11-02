@@ -28,7 +28,7 @@ class EventParser{
 
         val eventList = mutableListOf<Event>()
 
-        var event = Event("", "", "", "", "",null, null)
+        var event = Event("", "", "", "", "", "", null, null)
 
         var tag: String?
         var xmlEvent = parser.eventType
@@ -67,7 +67,7 @@ class EventParser{
                         status = false
                         eventList.add(event)
 
-                        event = Event("", "", "", "", "", null, null)
+                        event = Event("", "", "", "", "", "", null, null)
                     }
                 }
             }
@@ -114,6 +114,7 @@ class EventParser{
                 when (parts[0]) {
                     "SUMMARY" -> currentEvent.summary = parts[1]
                     "DESCRIPTION" -> currentEvent.description = parts[1]
+                    "RRULE-FREQ" -> currentEvent.frequency = parts[1]
                 }
             }
         }

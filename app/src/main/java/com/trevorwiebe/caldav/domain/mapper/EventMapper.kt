@@ -9,6 +9,7 @@ fun Event.toEventModel(color: String): EventModel {
         url = url,
         status = status,
         summary = summary,
+        frequency = frequency,
         description = description,
         startDate = startDate,
         endDate = endDate,
