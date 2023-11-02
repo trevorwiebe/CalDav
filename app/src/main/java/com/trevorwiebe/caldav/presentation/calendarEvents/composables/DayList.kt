@@ -13,11 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.trevorwiebe.caldav.presentation.calendarEvents.DayUi
+import com.trevorwiebe.caldav.presentation.ui.theme.toFriendlyDayOfWeekName
+import org.joda.time.LocalDate
 
 @Composable
 fun DayList(
     dayUi: DayUi
 ) {
+
+    val day = dayUi.date.toFriendlyDayOfWeekName() + " " + dayUi.date.dayOfMonth.toString()
 
     Column(
         modifier = Modifier
@@ -27,10 +31,14 @@ fun DayList(
             .fillMaxWidth()
             .padding(0.dp, 0.dp, 0.dp, 8.dp)
     ) {
-        Text(
-            modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 0.dp),
-            text = dayUi.date.dayOfMonth.toString()
-        )
+        if(dayUi.date == LocalDate.now()){
+            TodayListDateLabel(date = day, color = MaterialTheme.colorScheme.tertiary)
+        }else {
+            Text(
+                modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 0.dp),
+                text = day
+            )
+        }
 
         val filteredEventList = remember(dayUi.eventList){
             dayUi.eventList.filter { it.summary != "" }

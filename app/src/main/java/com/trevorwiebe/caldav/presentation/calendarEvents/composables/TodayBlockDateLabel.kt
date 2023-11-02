@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 import com.trevorwiebe.caldav.presentation.ui.theme.generateOnColor
 
 @Composable
-fun TodayDateLabel(
+fun TodayBlockDateLabel(
     date: String,
     color: Color
 ) {

@@ -30,7 +30,7 @@ fun DayBlock(
             .height(96.dp)
     ) {
         if(dayUi.date == LocalDate.now()){
-            TodayDateLabel(
+            TodayBlockDateLabel(
                 date = dayUi.date.dayOfMonth.toString(),
                 color = MaterialTheme.colorScheme.tertiary
             )
