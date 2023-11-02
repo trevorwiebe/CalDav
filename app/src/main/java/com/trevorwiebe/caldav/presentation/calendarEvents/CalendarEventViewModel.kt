@@ -32,6 +32,14 @@ class CalendarEventViewModel @Inject constructor(
         loadAuthUser()
     }
 
+    fun onEvent(event: CalendarEventUiEvents){
+        when (event){
+            is CalendarEventUiEvents.ToggleViewState -> {
+                toggleIsGridState()
+            }
+        }
+    }
+
     private fun loadAuthUser(){
 
         val dayUiStructure = getCalendarStructure()
@@ -91,6 +99,10 @@ class CalendarEventViewModel @Inject constructor(
         }
     }
 
+    private fun toggleIsGridState(){
+        state = state.copy(isGrid = !state.isGrid)
+    }
+
 }
 
 data class CalendarEventState(
@@ -99,5 +111,5 @@ data class CalendarEventState(
     val eventList: MutableList<EventModel> = mutableListOf(),
     var authUserModelList: List<AuthUserModel> = emptyList(),
     val isAuthUserListNull: Boolean = false,
-    val isGrid: Boolean = false
+    val isGrid: Boolean = true
 )

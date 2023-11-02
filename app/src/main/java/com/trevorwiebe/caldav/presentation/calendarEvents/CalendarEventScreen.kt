@@ -3,7 +3,9 @@ package com.trevorwiebe.caldav.presentation.calendarEvents
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -12,10 +14,9 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,7 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -88,9 +91,20 @@ fun CalendarEventScreen(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(6.dp))
                                 .background(MaterialTheme.colorScheme.tertiary)
-                                .padding(4.dp, 1.dp, 4.dp, 1.dp),
-                            text = "25",
-                            color = MaterialTheme.colorScheme.onTertiary
+                                .padding(4.dp, 1.dp, 4.dp, 1.dp)
+                                .width(24.dp),
+                            text = LocalDate.now().dayOfMonth.toString(),
+                            color = MaterialTheme.colorScheme.onTertiary,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                    IconButton(onClick = {viewModel.onEvent(CalendarEventUiEvents.ToggleViewState)}) {
+                        Icon(
+                            if (viewModel.state.isGrid)
+                                painterResource(id = R.drawable.baseline_calendar_month_24)
+                            else
+                                painterResource(id = R.drawable.baseline_calendar_view_day_24),
+                            contentDescription = "switch calendar view"
                         )
                     }
                     IconButton(onClick = {
@@ -98,12 +112,10 @@ fun CalendarEventScreen(
                             scaffoldState.bottomSheetState.expand()
                         }
                     }) {
-                        Icon(Icons.Filled.List, contentDescription = "Calendar List")
-                    }
-                    IconButton(onClick = {
-                        navController.navigate(CalDavScreens.AddCalendar)
-                    }) {
-                        Icon(Icons.Filled.AddCircle, contentDescription = "Add Calendar")
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_edit_calendar_24),
+                            contentDescription = "Calendar List"
+                        )
                     }
                 },
                 title = {
@@ -120,12 +132,40 @@ fun CalendarEventScreen(
                     item{
                         Text(
                             modifier = Modifier.padding(8.dp),
-                            text = "Select calendars",
+                            text = "Available calendars",
                             fontSize = 20.sp
                         )
                     }
                     items(viewModel.state.calList){
                         CalendarView(calendarModel = it)
+                    }
+                    item {
+                        Button(
+                            onClick = {
+                                navController.navigate(CalDavScreens.AddCalendar)
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                            modifier = Modifier
+                                .padding(8.dp, 32.dp, 8.dp, 32.dp)
+                                .fillMaxWidth(),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary
+                            )
+                        ) {
+                            Text(
+                                modifier = Modifier
+                                    .padding(8.dp),
+                                text = "Add New Calendar",
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
+                            Icon(
+                                painter = painterResource(
+                                    id = R.drawable.baseline_add_circle_outline_24
+                                ),
+                                contentDescription = "Add new calendar",
+                                tint = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }
                     }
                 }
             }
