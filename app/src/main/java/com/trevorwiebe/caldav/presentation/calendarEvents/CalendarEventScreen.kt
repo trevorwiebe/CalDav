@@ -101,9 +101,9 @@ fun CalendarEventScreen(
                     IconButton(onClick = {viewModel.onEvent(CalendarEventUiEvents.ToggleViewState)}) {
                         Icon(
                             if (viewModel.state.isGrid)
-                                painterResource(id = R.drawable.baseline_calendar_month_24)
+                                painterResource(id = R.drawable.baseline_calendar_view_day_24)
                             else
-                                painterResource(id = R.drawable.baseline_calendar_view_day_24),
+                                painterResource(id = R.drawable.baseline_calendar_month_24),
                             contentDescription = "switch calendar view"
                         )
                     }
@@ -170,7 +170,8 @@ fun CalendarEventScreen(
                 }
             }
         },
-        sheetPeekHeight = 0.dp
+        sheetPeekHeight = 0.dp,
+        sheetShadowElevation = 16.dp
     ) {  innerPadding ->
 
         Column(modifier = Modifier.padding(innerPadding)) {
