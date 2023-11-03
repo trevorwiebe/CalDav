@@ -112,7 +112,7 @@ class EventParser{
                 when (parts[0]) {
                     "SUMMARY" -> currentEvent.summary = parts[1]
                     "DESCRIPTION" -> currentEvent.description = parts[1]
-                    "RRULE-FREQ" -> currentEvent.frequency = parts[1]
+                    "RRULE" -> currentEvent.frequency = parts[1]
                 }
             }
         }
