@@ -55,12 +55,14 @@ fun CalendarEventScreen(
     navController: NavController
 ) {
 
-    if(viewModel.state.isAuthUserListNull){
+    val state = viewModel.state
+
+    if(state.isAuthUserListNull){
         navController.navigate(CalDavScreens.Welcome)
     }
 
     val scaffoldState = rememberBottomSheetScaffoldState()
-    val eventList = viewModel.state.dayUiList
+    val eventList = state.dayUiList
     val scrollToPosition = eventList.indexOfFirst {
         it.date == LocalDate.now()
     }
@@ -100,7 +102,7 @@ fun CalendarEventScreen(
                     }
                     IconButton(onClick = {viewModel.onEvent(CalendarEventUiEvents.ToggleViewState)}) {
                         Icon(
-                            if (viewModel.state.isGrid)
+                            if (state.isGrid)
                                 painterResource(id = R.drawable.baseline_calendar_view_day_24)
                             else
                                 painterResource(id = R.drawable.baseline_calendar_month_24),
@@ -186,7 +188,7 @@ fun CalendarEventScreen(
 
         Column(modifier = Modifier.padding(innerPadding)) {
 
-            if(viewModel.state.isGrid){
+            if(state.isGrid){
 
                 Row(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
                     DayOfWeekText(dayInitial = "S", modifier = Modifier.weight(1f))
