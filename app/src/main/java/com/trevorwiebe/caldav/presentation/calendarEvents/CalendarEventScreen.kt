@@ -87,6 +87,7 @@ fun CalendarEventScreen(
                     IconButton(onClick = {
                         coroutineScope.launch {
                             lazyGridState.animateScrollToItem(scrollToPosition)
+                            lazyColumnState.animateScrollToItem(scrollToPosition)
                         }
                     }) {
                         Text(
