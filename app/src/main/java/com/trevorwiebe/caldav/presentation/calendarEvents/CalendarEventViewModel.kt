@@ -37,6 +37,9 @@ class CalendarEventViewModel @Inject constructor(
             is CalendarEventUiEvents.ToggleViewState -> {
                 toggleIsGridState()
             }
+            is CalendarEventUiEvents.ToggleCalendarVisibility -> {
+                toggleCalendarVisibility(event.calendarId)
+            }
         }
     }
 
@@ -101,6 +104,18 @@ class CalendarEventViewModel @Inject constructor(
 
     private fun toggleIsGridState(){
         state = state.copy(isGrid = !state.isGrid)
+    }
+
+    private fun toggleCalendarVisibility(calendarId: String){
+        val calList = state.calList.toMutableList()
+        val calToEdit = calList.find { it.url == calendarId }
+        if(calToEdit!=null){
+            val position = calList.indexOf(calToEdit)
+            calToEdit.isVisible = !calToEdit.isVisible
+            calList.removeAt(position)
+            calList.add(position, calToEdit)
+        }
+        state = state.copy(calList = calList)
     }
 
 }

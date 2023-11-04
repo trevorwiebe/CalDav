@@ -11,5 +11,6 @@ data class CalendarModel(
     val syncToken: String = "",
     val order: String = "",
     val color: String = "",
-    val numberOfEvents: Int = 0
+    val numberOfEvents: Int = 0,
+    var isVisible: Boolean = true
 )
