@@ -48,11 +48,17 @@ fun DayBlock(
 
         if(filteredEventList.size <= 4) {
             filteredEventList.forEach {
-                DayBlockEventItem(eventModel = it)
+                DayBlockEventItem(
+                    eventSummary = it.summary ?: "",
+                    eventColor = it.color
+                )
             }
         }else{
             filteredEventList.take(4).forEach{
-                DayBlockEventItem(eventModel = it)
+                DayBlockEventItem(
+                    eventSummary = it.summary ?: "",
+                    eventColor = it.color
+                )
             }
             MoreEventsEllipsis()
         }

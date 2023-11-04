@@ -10,24 +10,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.trevorwiebe.caldav.domain.model.EventModel
 import com.trevorwiebe.caldav.presentation.ui.theme.generateOnColorFromBaseColorString
 import com.trevorwiebe.caldav.presentation.ui.theme.getColorFromString
 
 @Composable
 fun DayBlockEventItem(
-    eventModel: EventModel
+    eventSummary: String,
+    eventColor: String
 ) {
 
     Text(
-        text = eventModel.summary ?: "",
-        color = eventModel.color.generateOnColorFromBaseColorString(),
+        text = eventSummary,
+        color = eventColor.generateOnColorFromBaseColorString(),
         fontSize = 10.sp,
         modifier = Modifier
             .fillMaxWidth()
             .padding(1.5.dp, .5.dp, 1.5.dp, .5.dp)
             .clip(RoundedCornerShape(6.dp))
-            .background(eventModel.color.getColorFromString())
+            .background(eventColor.getColorFromString())
             .padding(2.dp, 0.dp, 2.dp, 0.dp),
         maxLines = 1
     )

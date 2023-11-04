@@ -136,8 +136,18 @@ fun CalendarEventScreen(
                             fontSize = 20.sp
                         )
                     }
-                    items(viewModel.state.calList){
-                        CalendarView(calendarModel = it)
+                    items(state.calList){
+                        CalendarView(
+                            calendarTitle = it.title,
+                            calendarColor = it.color,
+                            calendarVisibility = it.isVisible,
+                            numberOfEvents = it.numberOfEvents.toString(),
+                            toggleVisibility = {
+                                viewModel.onEvent(
+                                    CalendarEventUiEvents.ToggleCalendarVisibility(it.url)
+                                )
+                            }
+                        )
                     }
                     item {
                         Button(
