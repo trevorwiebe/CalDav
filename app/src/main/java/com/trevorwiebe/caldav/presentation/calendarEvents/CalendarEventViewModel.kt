@@ -122,8 +122,8 @@ class CalendarEventViewModel @Inject constructor(
 
 data class CalendarEventState(
     val dayUiList: List<DayUi> = listOf(),
-    val calList: MutableList<CalendarModel> = mutableListOf(),
-    val eventList: MutableList<EventModel> = mutableListOf(),
+    val calList: List<CalendarModel> = listOf(),
+    val eventList: List<EventModel> = listOf(),
     var authUserModelList: List<AuthUserModel> = emptyList(),
     val isAuthUserListNull: Boolean = false,
     val isGrid: Boolean = true
