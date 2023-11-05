@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -28,6 +27,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -44,7 +44,6 @@ import com.trevorwiebe.caldav.presentation.CalDavScreens
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayBlock
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayOfWeekText
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.CalendarView
-import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayList
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 
@@ -62,7 +61,7 @@ fun CalendarEventScreen(
     }
 
     val scaffoldState = rememberBottomSheetScaffoldState()
-    val eventList = state.dayUiList
+    val eventList = rememberSaveable { state.dayUiList }
     val scrollToPosition = eventList.indexOfFirst {
         it.date == LocalDate.now()
     }
@@ -205,17 +204,25 @@ fun CalendarEventScreen(
                     state = lazyGridState,
                     columns = GridCells.Fixed(7)
                 ){
-                    items(eventList){
-                        DayBlock(dayUi = it)
-                    }
+                    items(
+                        count = eventList.size,
+                        key = {eventList[it].date},
+                        itemContent = { index ->
+                            DayBlock(dayUi = eventList[index])
+                        }
+                    )
                 }
             }else{
                 LazyColumn(
                     state = lazyColumnState
                 ){
-                    items(eventList){
-                        DayList(dayUi = it)
-                    }
+                    items(
+                        count = eventList.size,
+                        key = {eventList[it].date},
+                        itemContent = { index ->
+                            DayBlock(dayUi = eventList[index])
+                        }
+                    )
                 }
             }
         }
