@@ -44,6 +44,7 @@ import com.trevorwiebe.caldav.presentation.CalDavScreens
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayBlock
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayOfWeekText
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.CalendarView
+import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayList
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -220,7 +221,7 @@ fun CalendarEventScreen(
                         count = eventList.size,
                         key = {eventList[it].date},
                         itemContent = { index ->
-                            DayBlock(dayUi = eventList[index])
+                            DayList(dayUi = eventList[index])
                         }
                     )
                 }
