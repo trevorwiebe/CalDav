@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trevorwiebe.caldav.presentation.calendarEvents.DayUi
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 @Composable
 fun DayBlock(
@@ -49,14 +49,14 @@ fun DayBlock(
         if(filteredEventList.size <= 4) {
             filteredEventList.forEach {
                 DayBlockEventItem(
-                    eventSummary = it.summary ?: "",
+                    eventSummary = it.summary,
                     eventColor = it.color
                 )
             }
         }else{
             filteredEventList.take(4).forEach{
                 DayBlockEventItem(
-                    eventSummary = it.summary ?: "",
+                    eventSummary = it.summary,
                     eventColor = it.color
                 )
             }

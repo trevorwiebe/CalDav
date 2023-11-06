@@ -45,7 +45,7 @@ import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayBlock
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayOfWeekText
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.CalendarView
 import kotlinx.coroutines.launch
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

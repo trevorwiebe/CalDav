@@ -2,11 +2,9 @@ package com.trevorwiebe.caldav.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 fun Color.generateOnColor(): Color {
@@ -31,15 +29,10 @@ fun String.generateOnColorFromBaseColorString(): Color {
 }
 
 fun LocalDateTime.toFriendlyTime(): String {
-    val dtf: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
-    val dtfOut = DateTimeFormat.forPattern("h:mm:a")
-    val jodaTime: DateTime = dtf.parseDateTime(this.toString())
-    return dtfOut.print(jodaTime)
+    val formatter = DateTimeFormatter.ofPattern("h:mm:a")
+    return this.format(formatter)
 }
 
 fun LocalDate.toFriendlyDayOfWeekName(): String {
-    val dtf: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-    val dtfOut = DateTimeFormat.forPattern("EEE")
-    val jodaTime: DateTime = dtf.parseDateTime(this.toString())
-    return dtfOut.print(jodaTime)
+    return this.dayOfWeek.toString()
 }

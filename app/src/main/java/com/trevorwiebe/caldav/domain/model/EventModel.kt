@@ -1,6 +1,6 @@
 package com.trevorwiebe.caldav.domain.model
 
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
 
 data class EventModel(
     var id: String?,

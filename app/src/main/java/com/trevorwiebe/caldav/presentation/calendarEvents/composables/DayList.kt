@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.trevorwiebe.caldav.presentation.calendarEvents.DayUi
 import com.trevorwiebe.caldav.presentation.ui.theme.toFriendlyDayOfWeekName
 import com.trevorwiebe.caldav.presentation.ui.theme.toFriendlyTime
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 @Composable
 fun DayList(
@@ -47,10 +47,10 @@ fun DayList(
         
         filteredEventList.forEach{
             DayListEventItem(
-                eventSummary = it.summary ?: "",
+                eventSummary = it.summary,
                 eventColor = it.color,
-                eventStartDate = it.startDate?.toFriendlyTime() ?: "",
-                eventEndDate = it.endDate?.toFriendlyTime() ?: ""
+                eventStartDate = it.startDate.toFriendlyTime(),
+                eventEndDate = it.endDate.toFriendlyTime()
             )
         }
     }

@@ -1,7 +1,7 @@
 package com.trevorwiebe.caldav.domain.usecases
 
 import com.trevorwiebe.caldav.presentation.calendarEvents.DayUi
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 class GetCalendarStructure{
 
@@ -11,7 +11,7 @@ class GetCalendarStructure{
     operator fun invoke(): List<DayUi>{
 
         val dateUiList = mutableListOf<DayUi>()
-        var currentDate = LocalDate.now().minusDays(daysToGoBackward)
+        var currentDate = LocalDate.now().minusDays(daysToGoBackward.toLong())
 
         repeat(daysToGoBackward) {
             currentDate = currentDate.plusDays(1)
@@ -27,7 +27,7 @@ class GetCalendarStructure{
 
         val listToRemove = mutableListOf<DayUi>()
         for(dayUi in dateUiList){
-            if(dayUi.date.dayOfWeek == 7){
+            if(dayUi.date.dayOfWeek.value == 7){
                 break
             }else{
                 listToRemove.add(dayUi)
