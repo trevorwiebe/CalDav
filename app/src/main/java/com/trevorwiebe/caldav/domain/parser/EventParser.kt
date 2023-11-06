@@ -50,11 +50,11 @@ class EventParser{
                 }
                 XmlPullParser.TEXT -> {
                     if(href){
-                        event.url = parser.text
+                        event = event.copy(url = parser.text)
                         href = false
                     }
                     if(etag){
-                        event.id = parser.text
+                        event = event.copy(id = parser.text)
                         etag = false
                     }
                     if(calendarDataBool){
@@ -62,7 +62,7 @@ class EventParser{
                         calendarDataBool = false
                     }
                     if(status){
-                        event.status = parser.text
+                        event = event.copy(status = parser.text)
                         status = false
                         eventList.add(event)
 
@@ -100,20 +100,22 @@ class EventParser{
         return currentEvent
     }
 
-    private fun parseEvent(currentEvent: Event, eventLines: List<String>): Event {
+    private fun parseEvent(event: Event, eventLines: List<String>): Event {
+
+        var currentEvent = event
 
         for (line in eventLines) {
             val parts = line.split(":")
             if (parts.size == 2) {
                 if(parts[0].split(";").first() == "DTSTART"){
-                    currentEvent.startDate = parseDate(parts[1])
+                    currentEvent = currentEvent.copy(startDate = parseDate(parts[1]))
                 }else if(parts[0].split(";").first() == "DTEND"){
-                    currentEvent.endDate = parseDate(parts[1])
+                    currentEvent = currentEvent.copy(endDate = parseDate(parts[1]))
                 }
                 when (parts[0]) {
-                    "SUMMARY" -> currentEvent.summary = parts[1]
-                    "DESCRIPTION" -> currentEvent.description = parts[1]
-                    "RRULE" -> currentEvent.frequency = parts[1]
+                    "SUMMARY" -> currentEvent = currentEvent.copy(summary = parts[1])
+                    "DESCRIPTION" -> currentEvent = currentEvent.copy(description = parts[1])
+                    "RRULE" -> currentEvent = currentEvent.copy(frequency = parts[1])
                 }
             }
         }

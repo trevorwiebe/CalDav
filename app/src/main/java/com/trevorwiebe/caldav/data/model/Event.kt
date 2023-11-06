@@ -3,12 +3,12 @@ package com.trevorwiebe.caldav.data.model
 import java.time.LocalDateTime
 
 data class Event(
-    var id: String?,
-    var url: String?,
-    var status: String?,
-    var summary: String?,
-    var frequency: String?,
-    var description: String?,
-    var startDate: LocalDateTime?,
-    var endDate: LocalDateTime?
+    val id: String,
+    val url: String,
+    val status: String,
+    val summary: String,
+    val frequency: String,
+    val description: String,
+    val startDate: LocalDateTime,
+    val endDate: LocalDateTime
 )
