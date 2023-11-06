@@ -27,7 +27,7 @@ class EventParser{
 
         val eventList = mutableListOf<Event>()
 
-        var event = Event("", "", "", "", "", "", null, null)
+        var event = event()
 
         var tag: String?
         var xmlEvent = parser.eventType
@@ -66,7 +66,7 @@ class EventParser{
                         status = false
                         eventList.add(event)
 
-                        event = Event("", "", "", "", "", "", null, null)
+                        event = event()
                     }
                 }
             }
