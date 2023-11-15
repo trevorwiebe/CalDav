@@ -26,8 +26,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -62,7 +62,7 @@ fun CalendarEventScreen(
     }
 
     val scaffoldState = rememberBottomSheetScaffoldState()
-    val eventList = rememberSaveable { state.dayUiList }
+    val eventList = remember { state.dayUiList }
     val scrollToPosition = eventList.indexOfFirst {
         it.date == LocalDate.now()
     }
