@@ -3,11 +3,10 @@ package com.trevorwiebe.caldav.domain.parser
 import android.util.Xml
 import com.trevorwiebe.caldav.data.model.Event
 import com.trevorwiebe.caldav.domain.event
+import com.trevorwiebe.caldav.domain.utils.parseLocalDateTime
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class EventParser{
 
@@ -108,9 +107,9 @@ class EventParser{
             val parts = line.split(":")
             if (parts.size == 2) {
                 if(parts[0].split(";").first() == "DTSTART"){
-                    currentEvent = currentEvent.copy(startDate = parseDate(parts[1]))
+                    currentEvent = currentEvent.copy(startDate = parseLocalDateTime(parts[1]))
                 }else if(parts[0].split(";").first() == "DTEND"){
-                    currentEvent = currentEvent.copy(endDate = parseDate(parts[1]))
+                    currentEvent = currentEvent.copy(endDate = parseLocalDateTime(parts[1]))
                 }
                 when (parts[0]) {
                     "SUMMARY" -> currentEvent = currentEvent.copy(summary = parts[1])
@@ -120,14 +119,5 @@ class EventParser{
             }
         }
         return currentEvent
-    }
-    private fun parseDate(dateString: String): LocalDateTime {
-        val pattern = if(dateString.length == 8){
-            "yyyyMMdd"
-        }else{
-            "yyyyMMdd'T'HHmmss"
-        }
-        val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(pattern)
-        return LocalDateTime.parse(dateString, dateTimeFormatter)
     }
 }
