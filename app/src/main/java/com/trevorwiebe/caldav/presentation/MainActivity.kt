@@ -37,7 +37,17 @@ class MainActivity : ComponentActivity() {
                             WelcomeScreen(navController = navController)
                         }
                         composable(route = CalDavScreens.CalendarEvents){
-                            CalendarEventScreen(navController = navController)
+                            CalendarEventScreen(
+                                navigateToWelcome = {
+                                    navController.navigate(CalDavScreens.Welcome)
+                                },
+                                navigateToAddCalendar = {
+                                    navController.navigate(CalDavScreens.AddCalendar)
+                                },
+                                navigateToUsers = {
+                                    navController.navigate(CalDavScreens.EditUser)
+                                }
+                            )
                         }
                     }
                 }

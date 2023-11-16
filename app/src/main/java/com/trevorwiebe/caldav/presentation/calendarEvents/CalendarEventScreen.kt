@@ -43,9 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.trevorwiebe.caldav.R
-import com.trevorwiebe.caldav.presentation.CalDavScreens
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayBlock
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.DayOfWeekText
 import com.trevorwiebe.caldav.presentation.calendarEvents.composables.CalendarView
@@ -57,13 +55,15 @@ import java.time.LocalDate
 @Composable
 fun CalendarEventScreen(
     viewModel: CalendarEventViewModel = hiltViewModel(),
-    navController: NavController
+    navigateToWelcome: () -> Unit,
+    navigateToAddCalendar: () -> Unit,
+    navigateToUsers: () -> Unit
 ) {
 
     val state = viewModel.state
 
     if(state.isAuthUserListNull){
-        navController.navigate(CalDavScreens.Welcome)
+        navigateToWelcome.invoke()
     }
 
     val scaffoldState = rememberBottomSheetScaffoldState()
@@ -190,9 +190,7 @@ fun CalendarEventScreen(
                     }
                     item {
                         Button(
-                            onClick = {
-                                navController.navigate(CalDavScreens.AddCalendar)
-                            },
+                            onClick = navigateToAddCalendar,
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier
                                 .padding(8.dp, 32.dp, 8.dp, 32.dp)
