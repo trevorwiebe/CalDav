@@ -1,6 +1,6 @@
 package com.trevorwiebe.caldav.domain.model
 
-import com.trevorwiebe.caldav.data.model.CalComponentSet
+import com.trevorwiebe.caldav.data.util.CalComponentSet
 
 data class CalendarModel(
     val title: String = "",

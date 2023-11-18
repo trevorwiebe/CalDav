@@ -1,4 +1,4 @@
-package com.trevorwiebe.caldav.data.model
+package com.trevorwiebe.caldav.data.util
 
 enum class CalComponentSet {
     VEVENT,

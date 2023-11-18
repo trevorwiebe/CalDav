@@ -1,7 +1,5 @@
 package com.trevorwiebe.caldav.data.util
 
-import com.trevorwiebe.caldav.data.model.CalDavRequestBody
-
 fun getEventsRequest(): CalDavRequestBody {
     return CalDavRequestBody(
         body = "<c:calendar-query xmlns:d=\"DAV:\" xmlns:c=\"urn:ietf:params:xml:ns:caldav\">\n" +
