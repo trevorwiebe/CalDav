@@ -83,14 +83,14 @@ fun WelcomeScreen(
             Text(
                 modifier = Modifier
                     .padding(8.dp),
-                text = "Connect to Server",
+                text = "Add a Calendar",
                 color = MaterialTheme.colorScheme.primary
             )
             Icon(
                 painter = painterResource(
                     id = R.drawable.baseline_navigate_next_24
                 ),
-                contentDescription = "Connect to Server",
+                contentDescription = "Add a Calendar",
                 tint = MaterialTheme.colorScheme.primary
             )
         }
