@@ -2,8 +2,11 @@ package com.trevorwiebe.caldav.data
 
 import com.trevorwiebe.caldav.BuildConfig
 import com.trevorwiebe.caldav.data.model.CalDavRequestBody
+import com.trevorwiebe.caldav.data.util.getCalendarLinksRequest
+import com.trevorwiebe.caldav.data.util.getCalendarLocationLinkRequest
 import com.trevorwiebe.caldav.data.util.getCalendarRequest
 import com.trevorwiebe.caldav.data.util.getEventsRequest
+import com.trevorwiebe.caldav.data.util.getUserPrincipalsRequest
 import com.trevorwiebe.caldav.data.util.toFlow
 import kotlinx.coroutines.flow.Flow
 import okhttp3.Credentials
@@ -31,6 +34,39 @@ class CalDavApiImpl: CalDavApi {
     ): Flow<String> {
         val credential = Credentials.basic(username, password)
         val requestBody = getEventsRequest()
+        val request = generateRequest(credential, requestBody, url)
+        return getOkHttp().newCall(request).toFlow()
+    }
+
+    override suspend fun getPrincipals(
+        username: String,
+        password: String,
+        url: String
+    ): Flow<String> {
+        val credential = Credentials.basic(username, password)
+        val requestBody = getUserPrincipalsRequest()
+        val request = generateRequest(credential, requestBody, url)
+        return getOkHttp().newCall(request).toFlow()
+    }
+
+    override suspend fun getCalendarLocationLink(
+        username: String,
+        password: String,
+        url: String
+    ): Flow<String> {
+        val credential = Credentials.basic(username, password)
+        val requestBody = getCalendarLocationLinkRequest()
+        val request = generateRequest(credential, requestBody, url)
+        return getOkHttp().newCall(request).toFlow()
+    }
+
+    override suspend fun getCalendarLinks(
+        username: String,
+        password: String,
+        url: String
+    ): Flow<String> {
+        val credential = Credentials.basic(username, password)
+        val requestBody = getCalendarLinksRequest()
         val request = generateRequest(credential, requestBody, url)
         return getOkHttp().newCall(request).toFlow()
     }

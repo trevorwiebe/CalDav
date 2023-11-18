@@ -4,14 +4,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.trevorwiebe.caldav.domain.model.AuthUserModel
+import com.trevorwiebe.caldav.domain.usecases.LoadAvailableCalendars
 import com.trevorwiebe.caldav.domain.usecases.auth.UserAuthentication
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AddCalendarViewModel @Inject constructor(
-    private val userAuthentication: UserAuthentication
+    private val userAuthentication: UserAuthentication,
+    private val loadAvailableCalendars: LoadAvailableCalendars
 ): ViewModel() {
 
     var state by mutableStateOf(AddCalendarState())
@@ -28,16 +33,17 @@ class AddCalendarViewModel @Inject constructor(
                 state = state.copy(url = event.url)
             }
             is AddCalendarEvents.OnAddCal -> {
-                saveUser(
-                    state.username,
-                    state.password,
-                    state.url
-                )
-                state = state.copy(
-                    username = "",
-                    password = "",
-                    url = ""
-                )
+//                saveUser(
+//                    state.username,
+//                    state.password,
+//                    state.url
+//                )
+//                state = state.copy(
+//                    username = "",
+//                    password = "",
+//                    url = ""
+//                )
+                loadCalendars(state.username, state.password, state.url)
             }
         }
     }
@@ -49,6 +55,12 @@ class AddCalendarViewModel @Inject constructor(
             baseUrl = url
         )
         userAuthentication.saveAuthUser(authUser)
+    }
+
+    private fun loadCalendars(username: String, password: String, url: String){
+        viewModelScope.launch {
+            loadAvailableCalendars(username, password, url).collect()
+        }
     }
 
 }

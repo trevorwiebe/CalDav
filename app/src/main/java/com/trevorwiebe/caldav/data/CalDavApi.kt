@@ -10,5 +10,14 @@ interface CalDavApi {
     suspend fun getEvents(
         username: String, password: String, url: String
     ): Flow<String>
+    suspend fun getPrincipals(
+        username: String, password: String, url: String
+    ): Flow<String>
+    suspend fun getCalendarLocationLink(
+        username: String, password: String, url: String
+    ): Flow<String>
+    suspend fun getCalendarLinks(
+        username: String, password: String, url: String
+    ): Flow<String>
 
 }
