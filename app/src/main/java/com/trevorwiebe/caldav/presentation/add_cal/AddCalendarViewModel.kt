@@ -9,7 +9,6 @@ import com.trevorwiebe.caldav.domain.model.AuthCalendarModel
 import com.trevorwiebe.caldav.domain.usecases.LoadAvailableCalendars
 import com.trevorwiebe.caldav.domain.usecases.auth.CalendarAuthentication
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,16 +32,6 @@ class AddCalendarViewModel @Inject constructor(
                 state = state.copy(url = event.url)
             }
             is AddCalendarEvents.OnAddCal -> {
-//                saveUser(
-//                    state.username,
-//                    state.password,
-//                    state.url
-//                )
-//                state = state.copy(
-//                    username = "",
-//                    password = "",
-//                    url = ""
-//                )
                 loadCalendars(state.username, state.password, state.url)
             }
         }
@@ -60,7 +49,9 @@ class AddCalendarViewModel @Inject constructor(
 
     private fun loadCalendars(username: String, password: String, url: String){
         viewModelScope.launch {
-            loadAvailableCalendars(username, password, url).collect()
+            loadAvailableCalendars(username, password, url).collect{
+                state = state.copy(authCalendarList = it)
+            }
         }
     }
 
@@ -70,4 +61,5 @@ data class AddCalendarState(
     var username: String = "",
     var password: String = "",
     var url: String = "",
+    val authCalendarList: List<AuthCalendarModel> = emptyList()
 )
