@@ -30,7 +30,7 @@ import com.trevorwiebe.caldav.presentation.add_cal.composables.PlainTextView
 @Composable
 fun AddCalendarScreen(
     viewModel: AddCalendarViewModel = hiltViewModel(),
-    navController: NavController
+    navigateToCalendarEvent: () -> Unit
 ) {
 
     var showDialog by remember {
@@ -88,7 +88,7 @@ fun AddCalendarScreen(
 
         Button(
             onClick = {
-                viewModel.onEvent(AddCalendarEvents.OnAddCal)
+                viewModel.onEvent(AddCalendarEvents.OnDiscoverCalendars)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -105,7 +105,10 @@ fun AddCalendarScreen(
     if(showDialog){
         CalendarsFoundDialog(
             onDismissRequest = { viewModel.onEvent(AddCalendarEvents.OnCancelDialog) },
-            nextButton = {  },
+            nextButton = {
+                viewModel.onEvent(AddCalendarEvents.OnSaveAuthCalendars)
+                navigateToCalendarEvent()
+            },
             calendarList = viewModel.state.authCalendarList
         )
     }

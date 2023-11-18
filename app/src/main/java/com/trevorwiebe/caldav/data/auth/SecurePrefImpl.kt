@@ -9,9 +9,9 @@ class SecurePrefImpl(
     private val encryptedSharedPreferences: SharedPreferences
 ): SecurePref {
 
-    override fun saveAuthCalendar(authCalendar: AuthCalendar) {
+    override fun saveAuthCalendar(authCalendarList: List<AuthCalendar>) {
         val calendarList = getAuthCalendarList().toMutableList()
-        calendarList.add(authCalendar)
+        calendarList.addAll(authCalendarList)
         val calendarString = Gson().toJson(calendarList)
         encryptedSharedPreferences.edit()?.apply {
             putString("auth_calendar", calendarString)

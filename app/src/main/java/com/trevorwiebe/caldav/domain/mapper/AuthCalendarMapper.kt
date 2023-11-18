@@ -12,7 +12,7 @@ fun AuthCalendar.toAuthCalendarModel(): AuthCalendarModel {
     )
 }
 
-fun AuthCalendarModel.toAuthCalendarModel(): AuthCalendar {
+fun AuthCalendarModel.toAuthCalendar(): AuthCalendar {
     return AuthCalendar(
         username = username,
         password = password,

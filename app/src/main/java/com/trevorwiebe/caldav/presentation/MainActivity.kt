@@ -31,7 +31,11 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(route = CalDavScreens.AddCalendar){
-                            AddCalendarScreen(navController = navController)
+                            AddCalendarScreen(
+                                navigateToCalendarEvent = {
+                                    navController.navigate(CalDavScreens.CalendarEvents)
+                                }
+                            )
                         }
                         composable(route = CalDavScreens.Welcome){
                             WelcomeScreen(navController = navController)

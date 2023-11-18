@@ -31,26 +31,23 @@ class AddCalendarViewModel @Inject constructor(
             is AddCalendarEvents.OnURLChange -> {
                 state = state.copy(url = event.url)
             }
-            is AddCalendarEvents.OnAddCal -> {
-                loadCalendars(state.username, state.password, state.url)
+            is AddCalendarEvents.OnDiscoverCalendars -> {
+                discoverCalendars(state.username, state.password, state.url)
             }
             is AddCalendarEvents.OnCancelDialog -> {
                 state = state.copy(authCalendarList = emptyList())
             }
+            is AddCalendarEvents.OnSaveAuthCalendars -> {
+                saveAuthCalendar(state.authCalendarList)
+            }
         }
     }
 
-    private fun saveAuthCalendar(userName: String, password: String, url: String, calName: String){
-        val authUser = AuthCalendarModel(
-            username = userName,
-            password = password,
-            calendarUrl = url,
-            calendarName = calName
-        )
-        calendarAuthentication.saveAuthCalendar(authUser)
+    private fun saveAuthCalendar(authCalendarList: List<AuthCalendarModel>){
+        calendarAuthentication.saveAuthCalendar(authCalendarList)
     }
 
-    private fun loadCalendars(username: String, password: String, url: String){
+    private fun discoverCalendars(username: String, password: String, url: String){
         viewModelScope.launch {
             loadAvailableCalendars(username, password, url).collect{ calList ->
                 state = state.copy(

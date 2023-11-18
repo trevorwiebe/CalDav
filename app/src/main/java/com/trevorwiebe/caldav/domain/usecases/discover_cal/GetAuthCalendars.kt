@@ -16,6 +16,17 @@ class GetAuthCalendars(
         username: String, password: String, url: String
     ): Flow<List<AuthCalendarModel>> {
         return calDavApi.getCalendarLinks(username, password, url)
-            .map { authCalendarParser.parseCalendarLinks(it) }
+            .map { dataString ->
+                val authCalList = authCalendarParser.parseCalendarLinks(dataString)
+                val urlToRemove = authCalList[0].calendarUrl
+                authCalList.map {
+                    val urlToAdd = it.calendarUrl
+                    it.copy(
+                        username = username,
+                        password = password,
+                        calendarUrl = url.replace(urlToRemove, urlToAdd)
+                    )
+                }
+            }
     }
 }
