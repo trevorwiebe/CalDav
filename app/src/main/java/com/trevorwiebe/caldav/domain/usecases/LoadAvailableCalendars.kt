@@ -1,5 +1,6 @@
 package com.trevorwiebe.caldav.domain.usecases
 
+import com.trevorwiebe.caldav.domain.model.AuthCalendarModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
@@ -8,12 +9,12 @@ import kotlinx.coroutines.flow.flatMapConcat
 class LoadAvailableCalendars(
     private val getUserPrincipals: GetUserPrincipals,
     private val getCalendarLocationLink: GetCalendarLocationLink,
-    private val getCalendarLinks: GetCalendarLinks
+    private val getAuthCalendars: GetAuthCalendars
 ) {
 
     suspend operator fun invoke(
         username:String, password: String, baseUrl: String
-    ): Flow<List<String>> {
+    ): Flow<List<AuthCalendarModel>> {
 
         var currentUrl = baseUrl
 
@@ -24,7 +25,7 @@ class LoadAvailableCalendars(
             }
             .flatMapConcat { baseCalLinks ->
                 currentUrl = currentUrl.replace(baseCalLinks[0], baseCalLinks[1])
-                getCalendarLinks(username, password, currentUrl)
+                getAuthCalendars(username, password, currentUrl)
             }
     }
 

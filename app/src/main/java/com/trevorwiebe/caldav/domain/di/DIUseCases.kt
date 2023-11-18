@@ -7,7 +7,7 @@ import com.trevorwiebe.caldav.domain.parser.EventParser
 import com.trevorwiebe.caldav.domain.usecases.ConnectEventToDayUI
 import com.trevorwiebe.caldav.domain.usecases.GetCalendar
 import com.trevorwiebe.caldav.domain.usecases.GetCalendarLocationLink
-import com.trevorwiebe.caldav.domain.usecases.GetCalendarLinks
+import com.trevorwiebe.caldav.domain.usecases.GetAuthCalendars
 import com.trevorwiebe.caldav.domain.usecases.GetEvents
 import com.trevorwiebe.caldav.domain.usecases.GetCalendarStructure
 import com.trevorwiebe.caldav.domain.usecases.GetUserPrincipals
@@ -115,8 +115,8 @@ object DIUseCases {
     @ViewModelScoped
     fun provideCalLinks(
         calDavApi: CalDavApi
-    ): GetCalendarLinks {
-        return GetCalendarLinks(calDavApi)
+    ): GetAuthCalendars {
+        return GetAuthCalendars(calDavApi)
     }
 
     @Provides
@@ -124,12 +124,12 @@ object DIUseCases {
     fun provideLoadAvailableCalendars(
         getUserPrincipals: GetUserPrincipals,
         getCalendarLocationLink: GetCalendarLocationLink,
-        getCalendarLinks: GetCalendarLinks
+        getAuthCalendars: GetAuthCalendars
     ): LoadAvailableCalendars {
         return LoadAvailableCalendars(
             getUserPrincipals = getUserPrincipals,
             getCalendarLocationLink = getCalendarLocationLink,
-            getCalendarLinks = getCalendarLinks
+            getAuthCalendars = getAuthCalendars
         )
     }
 
