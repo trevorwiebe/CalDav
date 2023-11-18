@@ -34,10 +34,13 @@ class AddCalendarViewModel @Inject constructor(
             is AddCalendarEvents.OnAddCal -> {
                 loadCalendars(state.username, state.password, state.url)
             }
+            is AddCalendarEvents.OnCancelDialog -> {
+                state = state.copy(authCalendarList = emptyList())
+            }
         }
     }
 
-    private fun saveUser(userName: String, password: String, url: String, calName: String){
+    private fun saveAuthCalendar(userName: String, password: String, url: String, calName: String){
         val authUser = AuthCalendarModel(
             username = userName,
             password = password,
@@ -49,8 +52,10 @@ class AddCalendarViewModel @Inject constructor(
 
     private fun loadCalendars(username: String, password: String, url: String){
         viewModelScope.launch {
-            loadAvailableCalendars(username, password, url).collect{
-                state = state.copy(authCalendarList = it)
+            loadAvailableCalendars(username, password, url).collect{ calList ->
+                state = state.copy(
+                    authCalendarList = calList.filter { it.calendarName.isNotEmpty() }
+                )
             }
         }
     }

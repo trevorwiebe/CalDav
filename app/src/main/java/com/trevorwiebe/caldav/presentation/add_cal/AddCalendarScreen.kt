@@ -12,13 +12,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.trevorwiebe.caldav.presentation.CalDavScreens
+import com.trevorwiebe.caldav.presentation.add_cal.composables.CalendarsFoundDialog
 import com.trevorwiebe.caldav.presentation.add_cal.composables.CredentialText
 import com.trevorwiebe.caldav.presentation.add_cal.composables.CredentialTextView
 import com.trevorwiebe.caldav.presentation.add_cal.composables.PlainTextView
@@ -28,6 +32,12 @@ fun AddCalendarScreen(
     viewModel: AddCalendarViewModel = hiltViewModel(),
     navController: NavController
 ) {
+
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
+
+    showDialog = viewModel.state.authCalendarList.isNotEmpty()
 
     Column(
         modifier = Modifier
@@ -78,7 +88,6 @@ fun AddCalendarScreen(
 
         Button(
             onClick = {
-                navController.navigate(CalDavScreens.CalendarEvents)
                 viewModel.onEvent(AddCalendarEvents.OnAddCal)
             },
             modifier = Modifier
@@ -91,5 +100,13 @@ fun AddCalendarScreen(
         Spacer(modifier = Modifier
             .fillMaxWidth()
             .height(16.dp))
+    }
+
+    if(showDialog){
+        CalendarsFoundDialog(
+            onDismissRequest = { viewModel.onEvent(AddCalendarEvents.OnCancelDialog) },
+            nextButton = {  },
+            calendarList = viewModel.state.authCalendarList
+        )
     }
 }
