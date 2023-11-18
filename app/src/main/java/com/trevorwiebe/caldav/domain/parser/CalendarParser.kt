@@ -1,7 +1,7 @@
 package com.trevorwiebe.caldav.domain.parser
 
 import android.util.Xml
-import com.trevorwiebe.caldav.data.model.Calendar
+import com.trevorwiebe.caldav.domain.model.CalendarModel
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
@@ -9,7 +9,7 @@ import java.io.IOException
 class CalendarParser {
 
     @Throws(XmlPullParserException::class, IOException::class)
-    fun parseCalendar(data: String): Calendar? {
+    fun parseCalendar(data: String): CalendarModel? {
         val inputStream = data.byteInputStream()
         inputStream.use {
             val parser: XmlPullParser = Xml.newPullParser()
@@ -20,8 +20,8 @@ class CalendarParser {
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    fun parseCalendarHelper(parser: XmlPullParser): Calendar? {
-        var calendar = Calendar("", "", "", "", emptyList(), "", "", "")
+    fun parseCalendarHelper(parser: XmlPullParser): CalendarModel? {
+        var calendar = CalendarModel("", "", "", "", emptyList(), "", "", "")
         var xmlEvent = parser.eventType
         var tag: String?
         var title = false

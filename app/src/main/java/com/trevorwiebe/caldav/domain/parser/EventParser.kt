@@ -1,8 +1,8 @@
 package com.trevorwiebe.caldav.domain.parser
 
 import android.util.Xml
-import com.trevorwiebe.caldav.data.model.Event
-import com.trevorwiebe.caldav.domain.event
+import com.trevorwiebe.caldav.domain.eventModel
+import com.trevorwiebe.caldav.domain.model.EventModel
 import com.trevorwiebe.caldav.domain.utils.parseLocalDateTime
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -11,7 +11,7 @@ import java.io.IOException
 class EventParser{
 
     @Throws(XmlPullParserException::class, IOException::class)
-    fun parseEvents(data: String): List<Event> {
+    fun parseEvents(data: String): List<EventModel> {
         val inputStream = data.byteInputStream()
         inputStream.use {
             val parser: XmlPullParser = Xml.newPullParser()
@@ -22,11 +22,11 @@ class EventParser{
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun parseEventsHelper(parser: XmlPullParser): List<Event> {
+    private fun parseEventsHelper(parser: XmlPullParser): List<EventModel> {
 
-        val eventList = mutableListOf<Event>()
+        val eventList = mutableListOf<EventModel>()
 
-        var event = event()
+        var event = eventModel()
 
         var tag: String?
         var xmlEvent = parser.eventType
@@ -65,7 +65,7 @@ class EventParser{
                         status = false
                         eventList.add(event)
 
-                        event = event()
+                        event = eventModel()
                     }
                 }
             }
@@ -74,7 +74,7 @@ class EventParser{
         return eventList.toList()
     }
 
-    private fun parseICSCalendar(currentEvent: Event, calendarData: String): Event {
+    private fun parseICSCalendar(currentEvent: EventModel, calendarData: String): EventModel {
 
         val lines = calendarData.split("\n")
 
@@ -99,7 +99,7 @@ class EventParser{
         return currentEvent
     }
 
-    private fun parseEvent(event: Event, eventLines: List<String>): Event {
+    private fun parseEvent(event: EventModel, eventLines: List<String>): EventModel {
 
         var currentEvent = event
 
