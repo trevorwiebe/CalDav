@@ -1,6 +1,6 @@
 package com.trevorwiebe.caldav.domain.usecases
 
-import com.trevorwiebe.caldav.data.CalDavApi
+import com.trevorwiebe.caldav.data.remote.CalDavApi
 import com.trevorwiebe.caldav.domain.parser.CalendarLinkParser
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

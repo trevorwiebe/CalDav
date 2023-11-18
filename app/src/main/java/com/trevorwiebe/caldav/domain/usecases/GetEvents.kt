@@ -1,7 +1,6 @@
 package com.trevorwiebe.caldav.domain.usecases
 
-import com.trevorwiebe.caldav.data.CalDavApi
-import com.trevorwiebe.caldav.domain.mapper.toEventModel
+import com.trevorwiebe.caldav.data.remote.CalDavApi
 import com.trevorwiebe.caldav.domain.model.EventModel
 import com.trevorwiebe.caldav.domain.parser.EventParser
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +16,7 @@ class GetEvents(
     ): Flow<List<EventModel>> {
         return calDavApi.getEvents(username, password, url)
             .map {
-                parser.parseEvents(it).map { it.toEventModel(eventColor) }
+                parser.parseEvents(it).map { it.copy(color = eventColor) }
             }
     }
 }

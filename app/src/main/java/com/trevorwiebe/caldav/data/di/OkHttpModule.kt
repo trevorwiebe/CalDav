@@ -1,7 +1,7 @@
 package com.trevorwiebe.caldav.data.di
 
-import com.trevorwiebe.caldav.data.CalDavApi
-import com.trevorwiebe.caldav.data.CalDavApiImpl
+import com.trevorwiebe.caldav.data.remote.CalDavApi
+import com.trevorwiebe.caldav.data.remote.CalDavApiImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

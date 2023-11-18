@@ -1,7 +1,7 @@
-package com.trevorwiebe.caldav.data
+package com.trevorwiebe.caldav.data.remote
 
 import com.trevorwiebe.caldav.BuildConfig
-import com.trevorwiebe.caldav.data.model.CalDavRequestBody
+import com.trevorwiebe.caldav.data.util.CalDavRequestBody
 import com.trevorwiebe.caldav.data.util.getCalendarLinksRequest
 import com.trevorwiebe.caldav.data.util.getCalendarLocationLinkRequest
 import com.trevorwiebe.caldav.data.util.getCalendarRequest

@@ -1,7 +1,6 @@
 package com.trevorwiebe.caldav.domain.usecases
 
-import com.trevorwiebe.caldav.data.CalDavApi
-import com.trevorwiebe.caldav.domain.mapper.toCalendarModel
+import com.trevorwiebe.caldav.data.remote.CalDavApi
 import com.trevorwiebe.caldav.domain.model.CalendarModel
 import com.trevorwiebe.caldav.domain.parser.CalendarParser
 import kotlinx.coroutines.flow.Flow
@@ -19,6 +18,6 @@ class GetCalendar(
         return calDavApi.getCalendar(username, password, url)
             .map {
                 calendarParser.parseCalendar(it)
-            }.map { it?.toCalendarModel() }
+            }.map { it }
     }
 }

@@ -1,4 +1,4 @@
-package com.trevorwiebe.caldav.data
+package com.trevorwiebe.caldav.data.remote
 
 import kotlinx.coroutines.flow.Flow
 

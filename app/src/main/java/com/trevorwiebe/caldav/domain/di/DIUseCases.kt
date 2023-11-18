@@ -1,6 +1,6 @@
 package com.trevorwiebe.caldav.domain.di
 
-import com.trevorwiebe.caldav.data.CalDavApi
+import com.trevorwiebe.caldav.data.remote.CalDavApi
 import com.trevorwiebe.caldav.data.auth.SecurePref
 import com.trevorwiebe.caldav.domain.parser.CalendarParser
 import com.trevorwiebe.caldav.domain.parser.EventParser
