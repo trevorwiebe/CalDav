@@ -12,9 +12,9 @@ import com.trevorwiebe.caldav.domain.usecases.GetEvents
 import com.trevorwiebe.caldav.domain.usecases.GetCalendarStructure
 import com.trevorwiebe.caldav.domain.usecases.GetUserPrincipals
 import com.trevorwiebe.caldav.domain.usecases.LoadAvailableCalendars
-import com.trevorwiebe.caldav.domain.usecases.auth.GetAuthUserList
-import com.trevorwiebe.caldav.domain.usecases.auth.SaveAuthUser
-import com.trevorwiebe.caldav.domain.usecases.auth.UserAuthentication
+import com.trevorwiebe.caldav.domain.usecases.auth.GetAuthCalendarList
+import com.trevorwiebe.caldav.domain.usecases.auth.SaveAuthCalendar
+import com.trevorwiebe.caldav.domain.usecases.auth.CalendarAuthentication
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -71,27 +71,27 @@ object DIUseCases {
     @ViewModelScoped
     fun provideSaveUser(
         securePref: SecurePref
-    ): SaveAuthUser{
-        return SaveAuthUser(securePref)
+    ): SaveAuthCalendar{
+        return SaveAuthCalendar(securePref)
     }
 
     @Provides
     @ViewModelScoped
     fun provideGetUser(
         securePref: SecurePref
-    ): GetAuthUserList {
-        return GetAuthUserList(securePref)
+    ): GetAuthCalendarList {
+        return GetAuthCalendarList(securePref)
     }
 
     @Provides
     @ViewModelScoped
     fun provideUserAuthentication(
-        saveAuthUser: SaveAuthUser,
-        getAuthUserList: GetAuthUserList
-    ): UserAuthentication{
-        return UserAuthentication(
-            saveAuthUser = saveAuthUser,
-            getAuthUserList = getAuthUserList,
+        saveAuthCalendar: SaveAuthCalendar,
+        getAuthCalendarList: GetAuthCalendarList
+    ): CalendarAuthentication{
+        return CalendarAuthentication(
+            saveAuthCalendar = saveAuthCalendar,
+            getAuthCalendarList = getAuthCalendarList,
         )
     }
 

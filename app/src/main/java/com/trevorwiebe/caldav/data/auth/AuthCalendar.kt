@@ -1,7 +1,8 @@
 package com.trevorwiebe.caldav.data.auth
 
-data class AuthUser(
+data class AuthCalendar(
     val username: String,
     val password: String,
-    val baseUrl: String
+    val calendarUrl: String,
+    val calendarName: String
 )

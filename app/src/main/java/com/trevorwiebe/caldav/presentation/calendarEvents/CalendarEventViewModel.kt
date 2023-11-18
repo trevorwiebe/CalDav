@@ -5,21 +5,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.trevorwiebe.caldav.domain.model.AuthUserModel
+import com.trevorwiebe.caldav.domain.model.AuthCalendarModel
 import com.trevorwiebe.caldav.domain.model.CalendarModel
 import com.trevorwiebe.caldav.domain.model.EventModel
 import com.trevorwiebe.caldav.domain.usecases.ConnectEventToDayUI
 import com.trevorwiebe.caldav.domain.usecases.GetCalendar
 import com.trevorwiebe.caldav.domain.usecases.GetCalendarStructure
 import com.trevorwiebe.caldav.domain.usecases.GetEvents
-import com.trevorwiebe.caldav.domain.usecases.auth.UserAuthentication
+import com.trevorwiebe.caldav.domain.usecases.auth.CalendarAuthentication
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CalendarEventViewModel @Inject constructor(
-    private val userAuthentication: UserAuthentication,
+    private val calendarAuthentication: CalendarAuthentication,
     private val getCalendarStructure: GetCalendarStructure,
     private val getEvents: GetEvents,
     private val getCalendar: GetCalendar,
@@ -46,9 +46,9 @@ class CalendarEventViewModel @Inject constructor(
     private fun loadAuthUser(){
 
         val dayUiStructure = getCalendarStructure()
-        val authUserList = userAuthentication.getAuthUserList()
+        val authUserList = calendarAuthentication.getAuthCalendarList()
         state = state.copy(
-            authUserModelList = authUserList,
+            authCalendarModelList = authUserList,
             dayUiList = dayUiStructure
         )
         if(authUserList.isEmpty()){
@@ -60,10 +60,10 @@ class CalendarEventViewModel @Inject constructor(
         }
     }
 
-    private fun loadCalendar(authUserModel: AuthUserModel, dayUiStructure: List<DayUi>){
+    private fun loadCalendar(authCalendarModel: AuthCalendarModel, dayUiStructure: List<DayUi>){
         viewModelScope.launch {
             getCalendar(
-                authUserModel.username, authUserModel.password, authUserModel.baseUrl
+                authCalendarModel.username, authCalendarModel.password, authCalendarModel.calendarUrl
             ).collect{ calendar ->
                 if(calendar != null) {
                     state = state.copy(
@@ -73,21 +73,21 @@ class CalendarEventViewModel @Inject constructor(
                     )
                 }
 
-                loadEvents(authUserModel, dayUiStructure, calendar?.color ?: "#3b3b3b" )
+                loadEvents(authCalendarModel, dayUiStructure, calendar?.color ?: "#3b3b3b" )
             }
         }
     }
 
     private fun loadEvents(
-        authUserModel: AuthUserModel,
+        authCalendarModel: AuthCalendarModel,
         dayUiStructure: List<DayUi>,
         eventColor: String
     ){
         viewModelScope.launch{
             getEvents(
-                authUserModel.username,
-                authUserModel.password,
-                authUserModel.baseUrl,
+                authCalendarModel.username,
+                authCalendarModel.password,
+                authCalendarModel.calendarUrl,
                 eventColor
             ).collect{eventList ->
                 state = state.copy(
@@ -124,7 +124,7 @@ data class CalendarEventState(
     val dayUiList: List<DayUi> = listOf(),
     val calList: List<CalendarModel> = listOf(),
     val eventList: List<EventModel> = listOf(),
-    var authUserModelList: List<AuthUserModel> = emptyList(),
+    var authCalendarModelList: List<AuthCalendarModel> = emptyList(),
     val isAuthUserListNull: Boolean = false,
     val isGrid: Boolean = true
 )

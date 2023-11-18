@@ -1,20 +1,22 @@
 package com.trevorwiebe.caldav.domain.mapper
 
-import com.trevorwiebe.caldav.data.auth.AuthUser
-import com.trevorwiebe.caldav.domain.model.AuthUserModel
+import com.trevorwiebe.caldav.data.auth.AuthCalendar
+import com.trevorwiebe.caldav.domain.model.AuthCalendarModel
 
-fun AuthUser.toAuthUserModel(): AuthUserModel {
-    return AuthUserModel(
+fun AuthCalendar.toAuthCalendarModel(): AuthCalendarModel {
+    return AuthCalendarModel(
         username = username,
         password = password,
-        baseUrl = baseUrl
+        calendarUrl = calendarUrl,
+        calendarName = calendarName
     )
 }
 
-fun AuthUserModel.toAuthUser(): AuthUser {
-    return AuthUser(
+fun AuthCalendarModel.toAuthCalendarModel(): AuthCalendar {
+    return AuthCalendar(
         username = username,
         password = password,
-        baseUrl = baseUrl
+        calendarUrl = calendarUrl,
+        calendarName = calendarName
     )
 }

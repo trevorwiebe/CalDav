@@ -9,22 +9,22 @@ class SecurePrefImpl(
     private val encryptedSharedPreferences: SharedPreferences
 ): SecurePref {
 
-    override fun saveUser(authUser: AuthUser) {
-        val userList = getUserList().toMutableList()
-        userList.add(authUser)
-        val userString = Gson().toJson(userList)
+    override fun saveAuthCalendar(authCalendar: AuthCalendar) {
+        val calendarList = getAuthCalendarList().toMutableList()
+        calendarList.add(authCalendar)
+        val calendarString = Gson().toJson(calendarList)
         encryptedSharedPreferences.edit()?.apply {
-            putString("user", userString)
+            putString("auth_calendar", calendarString)
             apply()
         }
     }
 
-    override fun getUserList(): List<AuthUser> {
+    override fun getAuthCalendarList(): List<AuthCalendar> {
         encryptedSharedPreferences.let {
-            val userString = it.getString("user", null)
+            val calendarString = it.getString("auth_calendar", null)
             return try{
-                val userListType = object : TypeToken<ArrayList<AuthUser>>() {}.type
-                Gson().fromJson(userString, userListType)
+                val calendarListType = object : TypeToken<ArrayList<AuthCalendar>>() {}.type
+                Gson().fromJson(calendarString, calendarListType)
             }catch (e: Exception){
                 return emptyList()
             }

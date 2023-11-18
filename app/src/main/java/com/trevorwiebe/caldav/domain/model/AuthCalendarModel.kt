@@ -1,7 +1,8 @@
 package com.trevorwiebe.caldav.domain.model
 
-data class AuthUserModel(
+data class AuthCalendarModel(
     val username: String,
     val password: String,
-    val baseUrl: String
+    val calendarUrl: String,
+    val calendarName: String
 )

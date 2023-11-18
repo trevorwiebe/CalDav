@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.trevorwiebe.caldav.domain.model.AuthUserModel
+import com.trevorwiebe.caldav.domain.model.AuthCalendarModel
 import com.trevorwiebe.caldav.domain.usecases.LoadAvailableCalendars
-import com.trevorwiebe.caldav.domain.usecases.auth.UserAuthentication
+import com.trevorwiebe.caldav.domain.usecases.auth.CalendarAuthentication
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddCalendarViewModel @Inject constructor(
-    private val userAuthentication: UserAuthentication,
+    private val calendarAuthentication: CalendarAuthentication,
     private val loadAvailableCalendars: LoadAvailableCalendars
 ): ViewModel() {
 
@@ -48,13 +48,14 @@ class AddCalendarViewModel @Inject constructor(
         }
     }
 
-    private fun saveUser(userName: String, password: String, url: String){
-        val authUser = AuthUserModel(
+    private fun saveUser(userName: String, password: String, url: String, calName: String){
+        val authUser = AuthCalendarModel(
             username = userName,
             password = password,
-            baseUrl = url
+            calendarUrl = url,
+            calendarName = calName
         )
-        userAuthentication.saveAuthUser(authUser)
+        calendarAuthentication.saveAuthCalendar(authUser)
     }
 
     private fun loadCalendars(username: String, password: String, url: String){
