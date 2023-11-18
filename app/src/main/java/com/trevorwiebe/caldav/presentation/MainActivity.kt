@@ -43,9 +43,6 @@ class MainActivity : ComponentActivity() {
                                 },
                                 navigateToAddCalendar = {
                                     navController.navigate(CalDavScreens.AddCalendar)
-                                },
-                                navigateToUsers = {
-                                    navController.navigate(CalDavScreens.EditUser)
                                 }
                             )
                         }

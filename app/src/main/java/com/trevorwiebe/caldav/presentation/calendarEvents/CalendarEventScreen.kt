@@ -16,8 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,11 +26,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -56,8 +51,7 @@ import java.time.LocalDate
 fun CalendarEventScreen(
     viewModel: CalendarEventViewModel = hiltViewModel(),
     navigateToWelcome: () -> Unit,
-    navigateToAddCalendar: () -> Unit,
-    navigateToUsers: () -> Unit
+    navigateToAddCalendar: () -> Unit
 ) {
 
     val state = viewModel.state
@@ -79,8 +73,6 @@ fun CalendarEventScreen(
     )
     val coroutineScope = rememberCoroutineScope()
     val bottomScope = rememberCoroutineScope()
-
-    var showMenu by remember { mutableStateOf(false) }
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
@@ -118,42 +110,13 @@ fun CalendarEventScreen(
                         )
                     }
                     IconButton(onClick = {
-                        showMenu = true
+                        bottomScope.launch {
+                            scaffoldState.bottomSheetState.expand()
+                        }
                     }) {
                         Icon(
-                            painter = painterResource(id = R.drawable.baseline_more_vert_24),
+                            painter = painterResource(id = R.drawable.baseline_edit_calendar_24),
                             contentDescription = "Calendar List"
-                        )
-                    }
-                    DropdownMenu(
-                        expanded = showMenu,
-                        onDismissRequest = { showMenu = false }
-                    ) {
-
-                        DropdownMenuItem(
-                            text = { Text(text = "Calendars") },
-                            onClick = {
-                                bottomScope.launch {
-                                    scaffoldState.bottomSheetState.expand()
-                                }
-                            },
-                            leadingIcon = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.baseline_edit_calendar_24),
-                                    contentDescription = "Calendar List"
-                                )
-                            }
-                        )
-
-                        DropdownMenuItem(
-                            text = { Text(text = "Users") },
-                            onClick = navigateToUsers,
-                            leadingIcon = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.baseline_person_24),
-                                    contentDescription = "Users"
-                                )
-                            }
                         )
                     }
                 },
