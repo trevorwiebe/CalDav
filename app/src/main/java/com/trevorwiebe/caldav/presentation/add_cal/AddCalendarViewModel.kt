@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trevorwiebe.caldav.domain.model.AuthCalendarModel
-import com.trevorwiebe.caldav.domain.usecases.LoadAvailableCalendars
+import com.trevorwiebe.caldav.domain.usecases.discover_cal.LoadAvailableCalendars
 import com.trevorwiebe.caldav.domain.usecases.auth.CalendarAuthentication
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

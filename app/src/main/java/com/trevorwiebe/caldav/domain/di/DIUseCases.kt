@@ -6,12 +6,12 @@ import com.trevorwiebe.caldav.domain.parser.CalendarParser
 import com.trevorwiebe.caldav.domain.parser.EventParser
 import com.trevorwiebe.caldav.domain.usecases.ConnectEventToDayUI
 import com.trevorwiebe.caldav.domain.usecases.GetCalendar
-import com.trevorwiebe.caldav.domain.usecases.GetCalendarLocationLink
-import com.trevorwiebe.caldav.domain.usecases.GetAuthCalendars
+import com.trevorwiebe.caldav.domain.usecases.discover_cal.GetCalendarLocationLink
+import com.trevorwiebe.caldav.domain.usecases.discover_cal.GetAuthCalendars
 import com.trevorwiebe.caldav.domain.usecases.GetEvents
 import com.trevorwiebe.caldav.domain.usecases.GetCalendarStructure
-import com.trevorwiebe.caldav.domain.usecases.GetUserPrincipals
-import com.trevorwiebe.caldav.domain.usecases.LoadAvailableCalendars
+import com.trevorwiebe.caldav.domain.usecases.discover_cal.GetUserPrincipals
+import com.trevorwiebe.caldav.domain.usecases.discover_cal.LoadAvailableCalendars
 import com.trevorwiebe.caldav.domain.usecases.auth.GetAuthCalendarList
 import com.trevorwiebe.caldav.domain.usecases.auth.SaveAuthCalendar
 import com.trevorwiebe.caldav.domain.usecases.auth.CalendarAuthentication

@@ -1,4 +1,4 @@
-package com.trevorwiebe.caldav.domain.usecases
+package com.trevorwiebe.caldav.domain.usecases.discover_cal
 
 import com.trevorwiebe.caldav.data.remote.CalDavApi
 import com.trevorwiebe.caldav.domain.parser.UserPrincipalsParser

@@ -1,4 +1,4 @@
-package com.trevorwiebe.caldav.domain.usecases
+package com.trevorwiebe.caldav.domain.usecases.discover_cal
 
 import com.trevorwiebe.caldav.domain.model.AuthCalendarModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
