@@ -28,16 +28,17 @@ fun DayList(
         modifier = Modifier
             .padding(8.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .fillMaxWidth()
             .padding(0.dp, 0.dp, 0.dp, 8.dp)
     ) {
         if(dayUi.date == LocalDate.now()){
-            TodayListDateLabel(date = day, color = MaterialTheme.colorScheme.tertiary)
+            TodayListDateLabel(date = day)
         }else {
             Text(
                 modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 0.dp),
-                text = day
+                text = day,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
 

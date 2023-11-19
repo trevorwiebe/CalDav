@@ -1,5 +1,6 @@
 package com.trevorwiebe.caldav.presentation.add_cal
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,7 +24,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.trevorwiebe.caldav.presentation.add_cal.composables.CalendarsFoundDialog
 import com.trevorwiebe.caldav.presentation.add_cal.composables.CredentialText
 import com.trevorwiebe.caldav.presentation.add_cal.composables.CredentialTextView
@@ -41,6 +43,7 @@ fun AddCalendarScreen(
 
     Column(
         modifier = Modifier
+            .background(MaterialTheme.colorScheme.primary)
             .padding(16.dp, 0.dp, 16.dp, 0.dp)
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
@@ -51,12 +54,16 @@ fun AddCalendarScreen(
         Text(
             text = "Add Calendar",
             fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onPrimary
         )
         Spacer(modifier = Modifier
             .fillMaxWidth()
             .height(16.dp))
-        Text(text = "Enter your users CalDav credentials.")
+        Text(
+            text = "Enter your CalDav credentials.",
+            color = MaterialTheme.colorScheme.onPrimary
+        )
         Spacer(modifier = Modifier
             .fillMaxWidth()
             .height(16.dp))
@@ -93,9 +100,17 @@ fun AddCalendarScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp, 36.dp, 0.dp, 16.dp),
-            shape = RoundedCornerShape(10.dp)
+            shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.onPrimary
+            )
         ) {
-            Text(text = "Submit", modifier = Modifier.padding(0.dp, 12.dp, 0.dp, 12.dp))
+            Text(
+                text = "Submit",
+                modifier = Modifier
+                    .padding(0.dp, 12.dp, 0.dp, 12.dp),
+                color = MaterialTheme.colorScheme.primary
+            )
         }
         Spacer(modifier = Modifier
             .fillMaxWidth()

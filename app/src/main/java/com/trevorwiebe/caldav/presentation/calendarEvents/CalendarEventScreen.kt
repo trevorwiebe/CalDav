@@ -3,7 +3,9 @@ package com.trevorwiebe.caldav.presentation.calendarEvents
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -92,11 +94,11 @@ fun CalendarEventScreen(
                         Text(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(6.dp))
-                                .background(MaterialTheme.colorScheme.tertiary)
+                                .background(MaterialTheme.colorScheme.tertiaryContainer)
                                 .padding(4.dp, 1.dp, 4.dp, 1.dp)
                                 .width(24.dp),
                             text = LocalDate.now().dayOfMonth.toString(),
-                            color = MaterialTheme.colorScheme.onTertiary,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer,
                             textAlign = TextAlign.Center
                         )
                     }
@@ -159,21 +161,21 @@ fun CalendarEventScreen(
                                 .padding(8.dp, 32.dp, 8.dp, 32.dp)
                                 .fillMaxWidth(),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
                             )
                         ) {
                             Text(
                                 modifier = Modifier
-                                    .padding(8.dp),
+                                    .padding(16.dp),
                                 text = "Add New Calendar",
-                                color = MaterialTheme.colorScheme.onPrimary
+                                color = MaterialTheme.colorScheme.onTertiaryContainer
                             )
                             Icon(
                                 painter = painterResource(
                                     id = R.drawable.baseline_add_circle_outline_24
                                 ),
                                 contentDescription = "Add new calendar",
-                                tint = MaterialTheme.colorScheme.onPrimary
+                                tint = MaterialTheme.colorScheme.onTertiaryContainer
                             )
                         }
                     }
@@ -184,7 +186,10 @@ fun CalendarEventScreen(
         sheetShadowElevation = 16.dp
     ) {  innerPadding ->
 
-        Column(modifier = Modifier.padding(innerPadding)) {
+        Column(modifier = Modifier
+            .padding(innerPadding)
+            .background(MaterialTheme.colorScheme.background)
+        ) {
 
             if(state.isGrid){
 
@@ -197,6 +202,11 @@ fun CalendarEventScreen(
                     DayOfWeekText(dayInitial = "F", modifier = Modifier.weight(1f))
                     DayOfWeekText(dayInitial = "S", modifier = Modifier.weight(1f))
                 }
+
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                )
 
                 LazyVerticalGrid(
                     state = lazyGridState,

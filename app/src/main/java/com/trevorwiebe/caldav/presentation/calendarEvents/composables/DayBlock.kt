@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trevorwiebe.caldav.presentation.calendarEvents.DayUi
@@ -26,19 +25,19 @@ fun DayBlock(
         modifier = Modifier
             .padding(2.dp)
             .clip(RoundedCornerShape(6.dp))
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .height(96.dp)
     ) {
         if(dayUi.date == LocalDate.now()){
             TodayBlockDateLabel(
-                date = dayUi.date.dayOfMonth.toString(),
-                color = MaterialTheme.colorScheme.tertiary
+                date = dayUi.date.dayOfMonth.toString()
             )
         }else{
             Text(
                 modifier = Modifier.padding(2.dp, 0.dp, 2.dp, 0.dp),
                 text = dayUi.date.dayOfMonth.toString(),
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
 

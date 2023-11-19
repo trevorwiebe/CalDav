@@ -35,11 +35,12 @@ fun CalendarsFoundDialog(
     calendarList: List<AuthCalendarModel>
 ) {
 
-    Dialog(onDismissRequest = onDismissRequest) {
+    Dialog(
+        onDismissRequest = onDismissRequest
+    ) {
         Card(
             modifier = Modifier
-                .padding(16.dp),
-            shape = RoundedCornerShape(16.dp),
+                .clip(RoundedCornerShape(16.dp)),
         ){
             Column(
                 modifier = Modifier.padding(18.dp),
@@ -58,14 +59,20 @@ fun CalendarsFoundDialog(
                             id = R.drawable.baseline_calendar_month_24
                         ),
                         contentDescription = "Event Flow",
-                        tint = MaterialTheme.colorScheme.onBackground
+                        tint = MaterialTheme.colorScheme.tertiary
                     )
 
+                    val dialogText = if(calendarList.size == 1){
+                        calendarList.size.toString() + " Calendar Found"
+                    }else{
+                        calendarList.size.toString() + " Calendars Found"
+                    }
+
                     Text(
-                        text = "Calendars Found",
+                        text = dialogText,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
 
@@ -85,13 +92,19 @@ fun CalendarsFoundDialog(
                         onClick = { onDismissRequest() },
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        Text("Cancel")
+                        Text(
+                            text = "Cancel",
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
                     }
                     TextButton(
                         onClick = { nextButton() },
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        Text("Next")
+                        Text(
+                            text = "Next",
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
                     }
                 }
             }
@@ -105,12 +118,12 @@ fun CalendarItem(authCalendarModel: AuthCalendarModel) {
         modifier = Modifier
             .padding(0.dp, 4.dp, 0.dp, 4.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.surface)
+            .background(MaterialTheme.colorScheme.secondaryContainer)
             .padding(8.dp)
     ) {
         Text(
             text = authCalendarModel.calendarName,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSecondaryContainer
         )
     }
 }

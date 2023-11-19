@@ -63,8 +63,8 @@ fun WelcomeScreen(
                 painter = painterResource(
                     id = R.drawable.baseline_calendar_month_24
                 ),
-                contentDescription = "Cream",
-                tint = MaterialTheme.colorScheme.onPrimary
+                contentDescription = "Event Flow",
+                tint = MaterialTheme.colorScheme.tertiary
             )
         }
 

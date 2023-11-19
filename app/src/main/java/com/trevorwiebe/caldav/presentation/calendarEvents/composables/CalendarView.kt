@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.trevorwiebe.caldav.R
 import com.trevorwiebe.caldav.presentation.ui.theme.generateOnColorFromBaseColorString
 import com.trevorwiebe.caldav.presentation.ui.theme.getColorFromString
@@ -44,7 +43,6 @@ fun CalendarView(
                     .height(8.dp))
                 Text(
                     text = calendarTitle,
-                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp),
                     color = calendarColor.generateOnColorFromBaseColorString()
